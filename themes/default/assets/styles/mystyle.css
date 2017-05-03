@@ -1,0 +1,83 @@
+/* 
+    Document   : mystyle
+    Created on : Mar 1, 2017, 2:45:50 PM
+    Author     : comi
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+/*top taheader*/
+a.navbar-brand span{
+    color:#fff;
+}
+a#main-menu-act i{
+    left:16%;
+    bottom:-26px;
+    font-size:20px;
+}
+a#main-menu-act{
+    margin:0 0;
+}
+/*to header end*/
+
+/*side bar*/
+.nav.main-menu > li > ul > li.active > a{
+    border-right:4px solid #F2B33F;
+    background:none;
+    color:#F2B33F;
+  
+}
+.sidebar-nav > ul > li > ul{padding-left:15px;}
+.nav>li>a:hover, .nav>li>a:focus{background: transparent !important;}
+.nav.main-menu > li.active > a{
+    background:none;
+    color:#F2B33F;
+    /*border-right:4px solid #349886;*/
+}
+/*side bar end*/
+/*button*/
+input[type=text]
+{
+    
+ /*border-radius:15px;*/
+}
+.input-group{
+    /*border-radius:10px;*/
+}
+/*button end*/
+/*dashboard*/
+
+ .container .breadcrumb {background: #ffffff;
+    box-shadow: 0 2px 2px rgba(0,0,0,.03), 0 1px 0 rgba(0,0,0,.03);
+    color: #000000;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    font-size: 15px;
+ }
+ .select2-results .select2-highlighted{background-color:#f2b33f !important;}
+ #dbTab a {
+    color: #6164c0 !important;
+ }
+.breadcrumb > .active{
+    color:#000000;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #f2b33f !important;
+    border-color: #f2b33f !important;
+}
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{
+    background-color: #f2b33f !important;
+    border-color: #f2b33f !important;
+}
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus{color:#6164c0 !important; }
+.dataTables_filter input[type=text]{    border-radius: 5px;}
+.box-header a{color:#6164c0 !important;}
+.breadcrumb .right_log{
+    color:#000000;
+}
+/*dashboard end*/

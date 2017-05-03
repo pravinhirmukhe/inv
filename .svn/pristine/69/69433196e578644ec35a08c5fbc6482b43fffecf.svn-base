@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/xampp/htdocs/inv/sma/config/routes.php</file>
+            <file>file:/C:/xampp/htdocs/inv/sma/models/Auth_model.php</file>
+            <file>file:/C:/xampp/htdocs/inv/sma/config/constants.php</file>
+            <file>file:/C:/xampp/htdocs/inv/sma/libraries/Sma.php</file>
+            <file>file:/C:/xampp/htdocs/inv/sma/language/spanish/auth_lang.php</file>
+            <file>file:/C:/xampp/htdocs/inv/sma/config/ion_auth.php</file>
+            <file>file:/C:/xampp/htdocs/inv/sma/config/database.php</file>
+            <file>file:/C:/xampp/htdocs/inv/themes/default/views/products/print_labels.php</file>
+            <file>file:/C:/xampp/htdocs/inv/sma/config/ion_auth_bkup_akash.php</file>
+            <file>file:/C:/xampp/htdocs/inv/sma/controllers/Auth.php</file>
+            <file>file:/C:/xampp/htdocs/inv/themes/default/views/products/add.php</file>
+            <file>file:/C:/xampp/htdocs/inv/themes/default/assets/js/angular.control.js</file>
+            <file>file:/C:/xampp/htdocs/inv/sma/controllers/Products.php</file>
+            <file>file:/C:/xampp/htdocs/inv/db/inv.sql</file>
+        </group>
+    </open-files>
+</project-private>

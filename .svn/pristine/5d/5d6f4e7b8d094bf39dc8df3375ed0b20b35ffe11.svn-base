@@ -1,0 +1,232 @@
+
+<?= $modal_js ?>
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-2x">&times;</i>
+            </button>
+            <center><h4 class="modal-title" id="myModalLabel">Minimum Qty Level / Re-order Qty <?= ucwords(str_replace("_", " ", $tab)) ?></h4></center>
+        </div>
+        <?php
+//        $attrib = array('data-toggle' => 'validator', 'role' => 'form', 'id' => 'addParaForm');
+//        echo form_open_multipart("customers/add", $attrib);
+        ?>
+        <div class="modal-body">
+            <form data-toggle="validator" role="form" id="addParaForm">
+                <p><?= lang('enter_info'); ?></p>
+                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">1. Department</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">3. Type</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">5. Design</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">7. Fitting</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">9. Fabric</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">11. Size</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">13. MRP-From</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                </div><!--end col 6 --->
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">2. Product Item</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">4. Brand</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">6. Style</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">8. Pattern</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">10. color</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">12. MRP</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="customer_group">Up to</label>
+                        <div class="controls"> 
+                            <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" data-bv-notempty="true"'); ?>
+                        </div>
+                    </div>
+                </div><!--end col 6 --->
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group form-inline" >
+                        <label for="Minimum_Qty" >14. Minimum Qty Level</label>
+
+                        <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" style="margin:0px 12px" data-bv-notempty="true"'); ?>
+                        <label style="margin:0px 12px">(Pcs)</label>
+                        <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" style="margin:0px 12px" data-bv-notempty="true"'); ?>
+                        <label style="margin:0px 12px">(Boxes)</label>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="Minimum_Qty" >15. Re-order Qty </label>
+
+                        <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" style="margin:0px 25px" data-bv-notempty="true"'); ?>
+                        <label style="margin:0px 10px" >(Pcs)</label>
+                        <?php echo form_input('para_name', '', 'class="form-control tip" id="para_name" style="margin:0px 12px" data-bv-notempty="true"'); ?>
+                        <label style="margin:0px 12px">(Bundles)</label>
+                    </div>
+                    </div>
+                </div>
+            </form>
+        </div><!--end body div-->
+
+
+        <div class="modal-footer" style="clear:both;">
+
+
+            <input name="add_user" value="Save" class="btn btn-primary" type="submit"> 
+
+        </div><!--end foter div-->
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function (e) {
+        $('#addParaForm').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'fa fa-check',
+                invalid: 'fa fa-times',
+                validating: 'fa fa-refresh'
+            }, excluded: [':disabled']
+        });
+        $('select.select').select2({minimumResultsForSearch: 6});
+        fields = $('.modal-content').find('.form-control');
+        $.each(fields, function () {
+            var id = $(this).attr('id');
+            var iname = $(this).attr('name');
+            var iid = '#' + id;
+            if (!!$(this).attr('data-bv-notempty') || !!$(this).attr('required')) {
+                $("label[for='" + id + "']").append(' *');
+                $(document).on('change', iid, function () {
+                    $('form[data-toggle="validator"]').bootstrapValidator('revalidateField', iname);
+                });
+            }
+        });
+    });
+    /**
+     * Comment
+     */
+    $(document).ready(function () {
+        $("#addParaForm").unbind().submit(function (e) {
+            e.preventDefault();
+            var form = $("#addParaForm");
+            var $data = $(this).serialize();
+//            $data += "&name=<?= $this->security->get_csrf_token_name() ?>&value=<?= $this->security->get_csrf_hash() ?>";
+            $.ajax({
+                url: "<?= site_url('system_settings/AddAjaxProduct_para/' . $tab . "/?v=1") ?>",
+                type: "get", async: false,
+                data: $data,
+                dataType: 'json',
+                success: function (data, textStatus, jqXHR) {
+                    if (data.s === "true") {
+                        bootbox.alert('Paramenter Added Successfully!');
+                        oTable_<?= $tab ?>.fnDraw();
+                        document.getElementById("addParaForm").reset();
+                    } else {
+                        bootbox.alert('Paramenter Adding Failed!');
+                    }
+                }
+            });
+            return false;
+        });
+        pp = $(".product_para_<?= $tab ?>");
+        pp.select2({
+            minimumInputLength: 1,
+            data: [],
+            initSelection: function (element, callback) {
+                $.ajax({
+                    type: "get", async: false,
+                    url: site_url + "products/getIdAttribute",
+                    data: {
+                        term: pp.val(),
+                        tab: pp.data('tab')
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        callback(data[0]);
+                    }
+                });
+            },
+            ajax: {
+                url: site_url + "products/getIdAttributes",
+                dataType: 'json',
+                quietMillis: 15,
+                data: function (term, page) {
+                    return {
+                        term: term,
+                        tab: pp.data('tab'),
+                        limit: 10
+                    };
+                },
+                results: function (data, page) {
+                    if (data.results != null) {
+                        return {results: data.results};
+                    } else {
+                        return {results: [{id: '', text: 'No Match Found'}]};
+                    }
+                }
+            }
+        });
+
+    });
+</script>

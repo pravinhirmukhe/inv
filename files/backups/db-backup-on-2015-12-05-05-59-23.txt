@@ -1,0 +1,1365 @@
+#
+# TABLE STRUCTURE FOR: sma_adjustments
+#
+
+DROP TABLE IF EXISTS `sma_adjustments`;
+
+CREATE TABLE `sma_adjustments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `product_id` int(11) NOT NULL,
+  `option_id` int(11) DEFAULT NULL,
+  `quantity` decimal(15,4) NOT NULL,
+  `warehouse_id` int(11) NOT NULL,
+  `note` varchar(1000) DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `type` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_calendar
+#
+
+DROP TABLE IF EXISTS `sma_calendar`;
+
+CREATE TABLE `sma_calendar` (
+  `date` date NOT NULL,
+  `data` varchar(255) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_captcha
+#
+
+DROP TABLE IF EXISTS `sma_captcha`;
+
+CREATE TABLE `sma_captcha` (
+  `captcha_id` bigint(13) unsigned NOT NULL AUTO_INCREMENT,
+  `captcha_time` int(10) unsigned NOT NULL,
+  `ip_address` varchar(16) CHARACTER SET latin1 NOT NULL DEFAULT '0',
+  `word` varchar(20) CHARACTER SET latin1 NOT NULL,
+  PRIMARY KEY (`captcha_id`),
+  KEY `word` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_categories
+#
+
+DROP TABLE IF EXISTS `sma_categories`;
+
+CREATE TABLE `sma_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(55) NOT NULL,
+  `name` varchar(55) NOT NULL,
+  `image` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_categories` (`id`, `code`, `name`, `image`) VALUES ('1', 'C1', 'Category 1', NULL);
+
+
+#
+# TABLE STRUCTURE FOR: sma_combo_items
+#
+
+DROP TABLE IF EXISTS `sma_combo_items`;
+
+CREATE TABLE `sma_combo_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `item_code` varchar(20) NOT NULL,
+  `quantity` decimal(12,4) NOT NULL,
+  `unit_price` decimal(25,4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_companies
+#
+
+DROP TABLE IF EXISTS `sma_companies`;
+
+CREATE TABLE `sma_companies` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(10) unsigned DEFAULT NULL,
+  `group_name` varchar(20) NOT NULL,
+  `customer_group_id` int(11) DEFAULT NULL,
+  `customer_group_name` varchar(100) DEFAULT NULL,
+  `name` varchar(55) NOT NULL,
+  `company` varchar(255) NOT NULL,
+  `vat_no` varchar(100) DEFAULT NULL,
+  `address` varchar(255) NOT NULL,
+  `city` varchar(55) NOT NULL,
+  `state` varchar(55) DEFAULT NULL,
+  `postal_code` varchar(8) DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `cf1` varchar(100) DEFAULT NULL,
+  `cf2` varchar(100) DEFAULT NULL,
+  `cf3` varchar(100) DEFAULT NULL,
+  `cf4` varchar(100) DEFAULT NULL,
+  `cf5` varchar(100) DEFAULT NULL,
+  `cf6` varchar(100) DEFAULT NULL,
+  `invoice_footer` text,
+  `payment_term` int(11) DEFAULT '0',
+  `logo` varchar(255) DEFAULT 'logo.png',
+  `award_points` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `group_id` (`group_id`),
+  KEY `group_id_2` (`group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_companies` (`id`, `group_id`, `group_name`, `customer_group_id`, `customer_group_name`, `name`, `company`, `vat_no`, `address`, `city`, `state`, `postal_code`, `country`, `phone`, `email`, `cf1`, `cf2`, `cf3`, `cf4`, `cf5`, `cf6`, `invoice_footer`, `payment_term`, `logo`, `award_points`) VALUES ('1', '3', 'customer', '1', 'General', 'Walk-in Customer', 'Walk-in Customer', '', 'Customer Address', 'Petaling Jaya', 'Selangor', '46000', 'Malaysia', '0123456789', 'customer@logos.com', '', '', '', '', '', '', NULL, '0', 'logo.png', '0');
+INSERT INTO `sma_companies` (`id`, `group_id`, `group_name`, `customer_group_id`, `customer_group_name`, `name`, `company`, `vat_no`, `address`, `city`, `state`, `postal_code`, `country`, `phone`, `email`, `cf1`, `cf2`, `cf3`, `cf4`, `cf5`, `cf6`, `invoice_footer`, `payment_term`, `logo`, `award_points`) VALUES ('2', '4', 'supplier', NULL, NULL, 'Test Supplier', 'Supplier Company Name', '', 'Supplier Address', 'Petaling Jaya', 'Selangor', '46050', 'Malaysia', '0123456789', 'supplier@logos.com', '-', '-', '-', '-', '-', '-', NULL, '0', 'logo.png', '0');
+INSERT INTO `sma_companies` (`id`, `group_id`, `group_name`, `customer_group_id`, `customer_group_name`, `name`, `company`, `vat_no`, `address`, `city`, `state`, `postal_code`, `country`, `phone`, `email`, `cf1`, `cf2`, `cf3`, `cf4`, `cf5`, `cf6`, `invoice_footer`, `payment_term`, `logo`, `award_points`) VALUES ('3', NULL, 'biller', NULL, NULL, 'Mian Saleem', 'Test Biller', '5555', 'Biller adddress', 'City', '', '', 'Country', '012345678', 'sales@logos.com', '', '', '', '', '', '', ' Thank you for shopping with us. Please come again', '0', 'logo1.png', '0');
+
+
+#
+# TABLE STRUCTURE FOR: sma_costing
+#
+
+DROP TABLE IF EXISTS `sma_costing`;
+
+CREATE TABLE `sma_costing` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `sale_item_id` int(11) NOT NULL,
+  `sale_id` int(11) DEFAULT NULL,
+  `purchase_item_id` int(11) DEFAULT NULL,
+  `quantity` decimal(15,4) NOT NULL,
+  `purchase_net_unit_cost` decimal(25,4) DEFAULT NULL,
+  `purchase_unit_cost` decimal(25,4) DEFAULT NULL,
+  `sale_net_unit_price` decimal(25,4) NOT NULL,
+  `sale_unit_price` decimal(25,4) NOT NULL,
+  `quantity_balance` decimal(15,4) DEFAULT NULL,
+  `inventory` tinyint(1) DEFAULT '0',
+  `overselling` tinyint(1) DEFAULT '0',
+  `option_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_currencies
+#
+
+DROP TABLE IF EXISTS `sma_currencies`;
+
+CREATE TABLE `sma_currencies` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(5) NOT NULL,
+  `name` varchar(55) NOT NULL,
+  `rate` decimal(12,4) NOT NULL,
+  `auto_update` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_currencies` (`id`, `code`, `name`, `rate`, `auto_update`) VALUES ('1', 'USD', 'US Dollar', '1.0000', '0');
+INSERT INTO `sma_currencies` (`id`, `code`, `name`, `rate`, `auto_update`) VALUES ('2', 'ERU', 'EURO', '0.7340', '0');
+
+
+#
+# TABLE STRUCTURE FOR: sma_customer_groups
+#
+
+DROP TABLE IF EXISTS `sma_customer_groups`;
+
+CREATE TABLE `sma_customer_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `percent` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_customer_groups` (`id`, `name`, `percent`) VALUES ('1', 'General', '0');
+INSERT INTO `sma_customer_groups` (`id`, `name`, `percent`) VALUES ('2', 'Reseller', '-5');
+INSERT INTO `sma_customer_groups` (`id`, `name`, `percent`) VALUES ('3', 'Distributor', '-15');
+INSERT INTO `sma_customer_groups` (`id`, `name`, `percent`) VALUES ('4', 'New Customer (+10)', '10');
+
+
+#
+# TABLE STRUCTURE FOR: sma_date_format
+#
+
+DROP TABLE IF EXISTS `sma_date_format`;
+
+CREATE TABLE `sma_date_format` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `js` varchar(20) NOT NULL,
+  `php` varchar(20) NOT NULL,
+  `sql` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_date_format` (`id`, `js`, `php`, `sql`) VALUES ('1', 'mm-dd-yyyy', 'm-d-Y', '%m-%d-%Y');
+INSERT INTO `sma_date_format` (`id`, `js`, `php`, `sql`) VALUES ('2', 'mm/dd/yyyy', 'm/d/Y', '%m/%d/%Y');
+INSERT INTO `sma_date_format` (`id`, `js`, `php`, `sql`) VALUES ('3', 'mm.dd.yyyy', 'm.d.Y', '%m.%d.%Y');
+INSERT INTO `sma_date_format` (`id`, `js`, `php`, `sql`) VALUES ('4', 'dd-mm-yyyy', 'd-m-Y', '%d-%m-%Y');
+INSERT INTO `sma_date_format` (`id`, `js`, `php`, `sql`) VALUES ('5', 'dd/mm/yyyy', 'd/m/Y', '%d/%m/%Y');
+INSERT INTO `sma_date_format` (`id`, `js`, `php`, `sql`) VALUES ('6', 'dd.mm.yyyy', 'd.m.Y', '%d.%m.%Y');
+
+
+#
+# TABLE STRUCTURE FOR: sma_deliveries
+#
+
+DROP TABLE IF EXISTS `sma_deliveries`;
+
+CREATE TABLE `sma_deliveries` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sale_id` int(11) NOT NULL,
+  `do_reference_no` varchar(50) NOT NULL,
+  `sale_reference_no` varchar(50) NOT NULL,
+  `customer` varchar(55) NOT NULL,
+  `address` varchar(1000) NOT NULL,
+  `note` varchar(1000) DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_expenses
+#
+
+DROP TABLE IF EXISTS `sma_expenses`;
+
+CREATE TABLE `sma_expenses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `reference` varchar(50) NOT NULL,
+  `amount` decimal(25,4) NOT NULL,
+  `note` varchar(1000) DEFAULT NULL,
+  `created_by` varchar(55) NOT NULL,
+  `attachment` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_gift_cards
+#
+
+DROP TABLE IF EXISTS `sma_gift_cards`;
+
+CREATE TABLE `sma_gift_cards` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `card_no` varchar(20) NOT NULL,
+  `value` decimal(25,4) NOT NULL,
+  `customer_id` int(11) DEFAULT NULL,
+  `customer` varchar(255) DEFAULT NULL,
+  `balance` decimal(25,4) NOT NULL,
+  `expiry` date DEFAULT NULL,
+  `created_by` varchar(55) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `card_no` (`card_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_groups
+#
+
+DROP TABLE IF EXISTS `sma_groups`;
+
+CREATE TABLE `sma_groups` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_groups` (`id`, `name`, `description`) VALUES ('1', 'owner', 'Owner');
+INSERT INTO `sma_groups` (`id`, `name`, `description`) VALUES ('2', 'admin', 'Administrator');
+INSERT INTO `sma_groups` (`id`, `name`, `description`) VALUES ('3', 'customer', 'Customer');
+INSERT INTO `sma_groups` (`id`, `name`, `description`) VALUES ('4', 'supplier', 'Supplier');
+INSERT INTO `sma_groups` (`id`, `name`, `description`) VALUES ('5', 'sales', 'Sales Staff');
+
+
+#
+# TABLE STRUCTURE FOR: sma_login_attempts
+#
+
+DROP TABLE IF EXISTS `sma_login_attempts`;
+
+CREATE TABLE `sma_login_attempts` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `ip_address` varbinary(16) NOT NULL,
+  `login` varchar(100) NOT NULL,
+  `time` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_migrations
+#
+
+DROP TABLE IF EXISTS `sma_migrations`;
+
+CREATE TABLE `sma_migrations` (
+  `version` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_migrations` (`version`) VALUES ('308');
+
+
+#
+# TABLE STRUCTURE FOR: sma_notifications
+#
+
+DROP TABLE IF EXISTS `sma_notifications`;
+
+CREATE TABLE `sma_notifications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment` text NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `from_date` datetime DEFAULT NULL,
+  `till_date` datetime DEFAULT NULL,
+  `scope` tinyint(1) NOT NULL DEFAULT '3',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_order_ref
+#
+
+DROP TABLE IF EXISTS `sma_order_ref`;
+
+CREATE TABLE `sma_order_ref` (
+  `ref_id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `so` int(11) NOT NULL DEFAULT '1',
+  `qu` int(11) NOT NULL DEFAULT '1',
+  `po` int(11) NOT NULL DEFAULT '1',
+  `to` int(11) NOT NULL DEFAULT '1',
+  `pos` int(11) NOT NULL DEFAULT '1',
+  `do` int(11) NOT NULL DEFAULT '1',
+  `pay` int(11) NOT NULL DEFAULT '1',
+  `re` int(11) NOT NULL DEFAULT '1',
+  `ex` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ref_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_order_ref` (`ref_id`, `date`, `so`, `qu`, `po`, `to`, `pos`, `do`, `pay`, `re`, `ex`) VALUES ('1', '2015-03-01', '1', '1', '1', '1', '1', '1', '1', '1', '1');
+
+
+#
+# TABLE STRUCTURE FOR: sma_payments
+#
+
+DROP TABLE IF EXISTS `sma_payments`;
+
+CREATE TABLE `sma_payments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `sale_id` int(11) DEFAULT NULL,
+  `return_id` int(11) DEFAULT NULL,
+  `purchase_id` int(11) DEFAULT NULL,
+  `reference_no` varchar(50) NOT NULL,
+  `transaction_id` varchar(50) DEFAULT NULL,
+  `paid_by` varchar(20) NOT NULL,
+  `cheque_no` varchar(20) DEFAULT NULL,
+  `cc_no` varchar(20) DEFAULT NULL,
+  `cc_holder` varchar(25) DEFAULT NULL,
+  `cc_month` varchar(2) DEFAULT NULL,
+  `cc_year` varchar(4) DEFAULT NULL,
+  `cc_type` varchar(20) DEFAULT NULL,
+  `amount` decimal(25,4) NOT NULL,
+  `currency` varchar(3) DEFAULT NULL,
+  `created_by` int(11) NOT NULL,
+  `attachment` varchar(55) DEFAULT NULL,
+  `type` varchar(20) NOT NULL,
+  `note` varchar(1000) DEFAULT NULL,
+  `pos_paid` decimal(25,4) DEFAULT '0.0000',
+  `pos_balance` decimal(25,4) DEFAULT '0.0000',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_paypal
+#
+
+DROP TABLE IF EXISTS `sma_paypal`;
+
+CREATE TABLE `sma_paypal` (
+  `id` int(11) NOT NULL,
+  `active` tinyint(4) NOT NULL,
+  `account_email` varchar(255) NOT NULL,
+  `paypal_currency` varchar(3) NOT NULL DEFAULT 'USD',
+  `fixed_charges` decimal(25,4) NOT NULL DEFAULT '2.0000',
+  `extra_charges_my` decimal(25,4) NOT NULL DEFAULT '3.9000',
+  `extra_charges_other` decimal(25,4) NOT NULL DEFAULT '4.4000',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_paypal` (`id`, `active`, `account_email`, `paypal_currency`, `fixed_charges`, `extra_charges_my`, `extra_charges_other`) VALUES ('1', '1', 'mypaypal@paypal.com', 'USD', '0.0000', '0.0000', '0.0000');
+
+
+#
+# TABLE STRUCTURE FOR: sma_permissions
+#
+
+DROP TABLE IF EXISTS `sma_permissions`;
+
+CREATE TABLE `sma_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `products-index` tinyint(1) DEFAULT '0',
+  `products-add` tinyint(1) DEFAULT '0',
+  `products-edit` tinyint(1) DEFAULT '0',
+  `products-delete` tinyint(1) DEFAULT '0',
+  `products-cost` tinyint(1) DEFAULT '0',
+  `products-price` tinyint(1) DEFAULT '0',
+  `quotes-index` tinyint(1) DEFAULT '0',
+  `quotes-add` tinyint(1) DEFAULT '0',
+  `quotes-edit` tinyint(1) DEFAULT '0',
+  `quotes-pdf` tinyint(1) DEFAULT '0',
+  `quotes-email` tinyint(1) DEFAULT '0',
+  `quotes-delete` tinyint(1) DEFAULT '0',
+  `sales-index` tinyint(1) DEFAULT '0',
+  `sales-add` tinyint(1) DEFAULT '0',
+  `sales-edit` tinyint(1) DEFAULT '0',
+  `sales-pdf` tinyint(1) DEFAULT '0',
+  `sales-email` tinyint(1) DEFAULT '0',
+  `sales-delete` tinyint(1) DEFAULT '0',
+  `purchases-index` tinyint(1) DEFAULT '0',
+  `purchases-add` tinyint(1) DEFAULT '0',
+  `purchases-edit` tinyint(1) DEFAULT '0',
+  `purchases-pdf` tinyint(1) DEFAULT '0',
+  `purchases-email` tinyint(1) DEFAULT '0',
+  `purchases-delete` tinyint(1) DEFAULT '0',
+  `transfers-index` tinyint(1) DEFAULT '0',
+  `transfers-add` tinyint(1) DEFAULT '0',
+  `transfers-edit` tinyint(1) DEFAULT '0',
+  `transfers-pdf` tinyint(1) DEFAULT '0',
+  `transfers-email` tinyint(1) DEFAULT '0',
+  `transfers-delete` tinyint(1) DEFAULT '0',
+  `customers-index` tinyint(1) DEFAULT '0',
+  `customers-add` tinyint(1) DEFAULT '0',
+  `customers-edit` tinyint(1) DEFAULT '0',
+  `customers-delete` tinyint(1) DEFAULT '0',
+  `suppliers-index` tinyint(1) DEFAULT '0',
+  `suppliers-add` tinyint(1) DEFAULT '0',
+  `suppliers-edit` tinyint(1) DEFAULT '0',
+  `suppliers-delete` tinyint(1) DEFAULT '0',
+  `sales-deliveries` tinyint(1) DEFAULT '0',
+  `sales-add_delivery` tinyint(1) DEFAULT '0',
+  `sales-edit_delivery` tinyint(1) DEFAULT '0',
+  `sales-delete_delivery` tinyint(1) DEFAULT '0',
+  `sales-email_delivery` tinyint(1) DEFAULT '0',
+  `sales-pdf_delivery` tinyint(1) DEFAULT '0',
+  `sales-gift_cards` tinyint(1) DEFAULT '0',
+  `sales-add_gift_card` tinyint(1) DEFAULT '0',
+  `sales-edit_gift_card` tinyint(1) DEFAULT '0',
+  `sales-delete_gift_card` tinyint(1) DEFAULT '0',
+  `pos-index` tinyint(1) DEFAULT '0',
+  `sales-return_sales` tinyint(1) DEFAULT '0',
+  `reports-index` tinyint(1) DEFAULT '0',
+  `reports-warehouse_stock` tinyint(1) DEFAULT '0',
+  `reports-quantity_alerts` tinyint(1) DEFAULT '0',
+  `reports-expiry_alerts` tinyint(1) DEFAULT '0',
+  `reports-products` tinyint(1) DEFAULT '0',
+  `reports-daily_sales` tinyint(1) DEFAULT '0',
+  `reports-monthly_sales` tinyint(1) DEFAULT '0',
+  `reports-sales` tinyint(1) DEFAULT '0',
+  `reports-payments` tinyint(1) DEFAULT '0',
+  `reports-purchases` tinyint(1) DEFAULT '0',
+  `reports-profit_loss` tinyint(1) DEFAULT '0',
+  `reports-customers` tinyint(1) DEFAULT '0',
+  `reports-suppliers` tinyint(1) DEFAULT '0',
+  `reports-staff` tinyint(1) DEFAULT '0',
+  `reports-register` tinyint(1) DEFAULT '0',
+  `sales-payments` tinyint(1) DEFAULT '0',
+  `purchases-payments` tinyint(1) DEFAULT '0',
+  `purchases-expenses` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_permissions` (`id`, `group_id`, `products-index`, `products-add`, `products-edit`, `products-delete`, `products-cost`, `products-price`, `quotes-index`, `quotes-add`, `quotes-edit`, `quotes-pdf`, `quotes-email`, `quotes-delete`, `sales-index`, `sales-add`, `sales-edit`, `sales-pdf`, `sales-email`, `sales-delete`, `purchases-index`, `purchases-add`, `purchases-edit`, `purchases-pdf`, `purchases-email`, `purchases-delete`, `transfers-index`, `transfers-add`, `transfers-edit`, `transfers-pdf`, `transfers-email`, `transfers-delete`, `customers-index`, `customers-add`, `customers-edit`, `customers-delete`, `suppliers-index`, `suppliers-add`, `suppliers-edit`, `suppliers-delete`, `sales-deliveries`, `sales-add_delivery`, `sales-edit_delivery`, `sales-delete_delivery`, `sales-email_delivery`, `sales-pdf_delivery`, `sales-gift_cards`, `sales-add_gift_card`, `sales-edit_gift_card`, `sales-delete_gift_card`, `pos-index`, `sales-return_sales`, `reports-index`, `reports-warehouse_stock`, `reports-quantity_alerts`, `reports-expiry_alerts`, `reports-products`, `reports-daily_sales`, `reports-monthly_sales`, `reports-sales`, `reports-payments`, `reports-purchases`, `reports-profit_loss`, `reports-customers`, `reports-suppliers`, `reports-staff`, `reports-register`, `sales-payments`, `purchases-payments`, `purchases-expenses`) VALUES ('1', '5', '1', '0', '0', '0', '0', '0', '1', '1', '1', '1', '1', '0', '1', '1', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', '1', '1', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
+
+
+#
+# TABLE STRUCTURE FOR: sma_pos_register
+#
+
+DROP TABLE IF EXISTS `sma_pos_register`;
+
+CREATE TABLE `sma_pos_register` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  `cash_in_hand` decimal(25,4) NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `total_cash` decimal(25,4) DEFAULT NULL,
+  `total_cheques` int(11) DEFAULT NULL,
+  `total_cc_slips` int(11) DEFAULT NULL,
+  `total_cash_submitted` decimal(25,4) DEFAULT NULL,
+  `total_cheques_submitted` int(11) DEFAULT NULL,
+  `total_cc_slips_submitted` int(11) DEFAULT NULL,
+  `note` text,
+  `closed_at` timestamp NULL DEFAULT NULL,
+  `transfer_opened_bills` varchar(50) DEFAULT NULL,
+  `closed_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_pos_settings
+#
+
+DROP TABLE IF EXISTS `sma_pos_settings`;
+
+CREATE TABLE `sma_pos_settings` (
+  `pos_id` int(1) NOT NULL,
+  `cat_limit` int(11) NOT NULL,
+  `pro_limit` int(11) NOT NULL,
+  `default_category` int(11) NOT NULL,
+  `default_customer` int(11) NOT NULL,
+  `default_biller` int(11) NOT NULL,
+  `display_time` varchar(3) NOT NULL DEFAULT 'yes',
+  `cf_title1` varchar(255) DEFAULT NULL,
+  `cf_title2` varchar(255) DEFAULT NULL,
+  `cf_value1` varchar(255) DEFAULT NULL,
+  `cf_value2` varchar(255) DEFAULT NULL,
+  `receipt_printer` varchar(55) DEFAULT NULL,
+  `cash_drawer_codes` varchar(55) DEFAULT NULL,
+  `focus_add_item` varchar(55) DEFAULT NULL,
+  `add_manual_product` varchar(55) DEFAULT NULL,
+  `customer_selection` varchar(55) DEFAULT NULL,
+  `add_customer` varchar(55) DEFAULT NULL,
+  `toggle_category_slider` varchar(55) DEFAULT NULL,
+  `toggle_subcategory_slider` varchar(55) DEFAULT NULL,
+  `cancel_sale` varchar(55) DEFAULT NULL,
+  `suspend_sale` varchar(55) DEFAULT NULL,
+  `print_items_list` varchar(55) DEFAULT NULL,
+  `finalize_sale` varchar(55) DEFAULT NULL,
+  `today_sale` varchar(55) DEFAULT NULL,
+  `open_hold_bills` varchar(55) DEFAULT NULL,
+  `close_register` varchar(55) DEFAULT NULL,
+  `keyboard` tinyint(1) NOT NULL,
+  `pos_printers` varchar(255) DEFAULT NULL,
+  `java_applet` tinyint(1) NOT NULL,
+  `product_button_color` varchar(20) NOT NULL DEFAULT 'default',
+  `tooltips` tinyint(1) DEFAULT '1',
+  `paypal_pro` tinyint(1) DEFAULT '0',
+  `stripe` tinyint(1) DEFAULT '0',
+  `rounding` tinyint(1) DEFAULT '0',
+  `char_per_line` tinyint(4) DEFAULT '42',
+  `pin_code` varchar(20) DEFAULT NULL,
+  `purchase_code` varchar(100) DEFAULT 'purchase_code',
+  `envato_username` varchar(50) DEFAULT 'envato_username',
+  `version` varchar(10) DEFAULT '3.0.1.21',
+  PRIMARY KEY (`pos_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_pos_settings` (`pos_id`, `cat_limit`, `pro_limit`, `default_category`, `default_customer`, `default_biller`, `display_time`, `cf_title1`, `cf_title2`, `cf_value1`, `cf_value2`, `receipt_printer`, `cash_drawer_codes`, `focus_add_item`, `add_manual_product`, `customer_selection`, `add_customer`, `toggle_category_slider`, `toggle_subcategory_slider`, `cancel_sale`, `suspend_sale`, `print_items_list`, `finalize_sale`, `today_sale`, `open_hold_bills`, `close_register`, `keyboard`, `pos_printers`, `java_applet`, `product_button_color`, `tooltips`, `paypal_pro`, `stripe`, `rounding`, `char_per_line`, `pin_code`, `purchase_code`, `envato_username`, `version`) VALUES ('1', '22', '20', '1', '1', '3', '1', 'GST Reg', 'VAT Reg', '123456789', '987654321', 'BIXOLON SRP-350II', 'x1C', 'Ctrl+F3', 'Ctrl+Shift+M', 'Ctrl+Shift+C', 'Ctrl+Shift+A', 'Ctrl+F11', 'Ctrl+F12', 'F4', 'F7', 'F9', 'F8', 'Ctrl+F1', 'Ctrl+F2', 'Ctrl+F10', '1', 'BIXOLON SRP-350II, BIXOLON SRP-350II', '0', 'default', '1', '0', '0', '0', '42', NULL, 'purchase_code', 'envato_username', '3.0.1.21');
+
+
+#
+# TABLE STRUCTURE FOR: sma_product_photos
+#
+
+DROP TABLE IF EXISTS `sma_product_photos`;
+
+CREATE TABLE `sma_product_photos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `photo` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_product_variants
+#
+
+DROP TABLE IF EXISTS `sma_product_variants`;
+
+CREATE TABLE `sma_product_variants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `name` varchar(55) NOT NULL,
+  `cost` decimal(25,4) DEFAULT NULL,
+  `price` decimal(25,4) DEFAULT NULL,
+  `quantity` decimal(15,4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_products
+#
+
+DROP TABLE IF EXISTS `sma_products`;
+
+CREATE TABLE `sma_products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) NOT NULL,
+  `name` char(255) NOT NULL,
+  `unit` varchar(50) DEFAULT NULL,
+  `cost` decimal(25,4) DEFAULT NULL,
+  `price` decimal(25,4) NOT NULL,
+  `alert_quantity` decimal(15,4) DEFAULT '20.0000',
+  `image` varchar(255) DEFAULT 'no_image.png',
+  `category_id` int(11) NOT NULL,
+  `subcategory_id` int(11) DEFAULT NULL,
+  `cf1` varchar(255) DEFAULT NULL,
+  `cf2` varchar(255) DEFAULT NULL,
+  `cf3` varchar(255) DEFAULT NULL,
+  `cf4` varchar(255) DEFAULT NULL,
+  `cf5` varchar(255) DEFAULT NULL,
+  `cf6` varchar(255) DEFAULT NULL,
+  `quantity` decimal(15,4) DEFAULT '0.0000',
+  `tax_rate` int(11) DEFAULT NULL,
+  `track_quantity` tinyint(1) DEFAULT '1',
+  `details` varchar(1000) DEFAULT NULL,
+  `warehouse` int(11) DEFAULT NULL,
+  `barcode_symbology` varchar(55) NOT NULL DEFAULT 'code128',
+  `file` varchar(100) DEFAULT NULL,
+  `product_details` text,
+  `tax_method` tinyint(1) DEFAULT '0',
+  `type` varchar(55) NOT NULL DEFAULT 'standard',
+  `supplier1` int(11) DEFAULT NULL,
+  `supplier1price` decimal(25,4) DEFAULT NULL,
+  `supplier2` int(11) DEFAULT NULL,
+  `supplier2price` decimal(25,4) DEFAULT NULL,
+  `supplier3` int(11) DEFAULT NULL,
+  `supplier3price` decimal(25,4) DEFAULT NULL,
+  `supplier4` int(11) DEFAULT NULL,
+  `supplier4price` decimal(25,4) DEFAULT NULL,
+  `supplier5` int(11) DEFAULT NULL,
+  `supplier5price` decimal(25,4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`),
+  KEY `category_id` (`category_id`),
+  KEY `id` (`id`),
+  KEY `id_2` (`id`),
+  KEY `category_id_2` (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_purchase_items
+#
+
+DROP TABLE IF EXISTS `sma_purchase_items`;
+
+CREATE TABLE `sma_purchase_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `purchase_id` int(11) DEFAULT NULL,
+  `transfer_id` int(11) DEFAULT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_code` varchar(50) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `option_id` int(11) DEFAULT NULL,
+  `net_unit_cost` decimal(25,4) NOT NULL,
+  `quantity` decimal(15,4) NOT NULL,
+  `warehouse_id` int(11) NOT NULL,
+  `item_tax` decimal(25,4) DEFAULT NULL,
+  `tax_rate_id` int(11) DEFAULT NULL,
+  `tax` varchar(20) DEFAULT NULL,
+  `discount` varchar(20) DEFAULT NULL,
+  `item_discount` decimal(25,4) DEFAULT NULL,
+  `expiry` date DEFAULT NULL,
+  `subtotal` decimal(25,4) NOT NULL,
+  `quantity_balance` decimal(15,4) DEFAULT '0.0000',
+  `date` date NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `unit_cost` decimal(25,4) DEFAULT NULL,
+  `real_unit_cost` decimal(25,4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `purchase_id` (`purchase_id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_purchases
+#
+
+DROP TABLE IF EXISTS `sma_purchases`;
+
+CREATE TABLE `sma_purchases` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `reference_no` varchar(55) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `supplier_id` int(11) NOT NULL,
+  `supplier` varchar(55) NOT NULL,
+  `warehouse_id` int(11) NOT NULL,
+  `note` varchar(1000) NOT NULL,
+  `total` decimal(25,4) DEFAULT NULL,
+  `product_discount` decimal(25,4) DEFAULT NULL,
+  `order_discount_id` varchar(20) DEFAULT NULL,
+  `order_discount` decimal(25,4) DEFAULT NULL,
+  `total_discount` decimal(25,4) DEFAULT NULL,
+  `product_tax` decimal(25,4) DEFAULT NULL,
+  `order_tax_id` int(11) DEFAULT NULL,
+  `order_tax` decimal(25,4) DEFAULT NULL,
+  `total_tax` decimal(25,4) DEFAULT '0.0000',
+  `shipping` decimal(25,4) DEFAULT '0.0000',
+  `grand_total` decimal(25,4) NOT NULL,
+  `paid` decimal(25,4) NOT NULL DEFAULT '0.0000',
+  `status` varchar(55) DEFAULT '',
+  `payment_status` varchar(20) DEFAULT 'pending',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `attachment` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_quote_items
+#
+
+DROP TABLE IF EXISTS `sma_quote_items`;
+
+CREATE TABLE `sma_quote_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `quote_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_code` varchar(55) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `product_type` varchar(20) DEFAULT NULL,
+  `option_id` int(11) DEFAULT NULL,
+  `net_unit_price` decimal(25,4) NOT NULL,
+  `unit_price` decimal(25,4) DEFAULT NULL,
+  `quantity` decimal(15,4) NOT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
+  `item_tax` decimal(25,4) DEFAULT NULL,
+  `tax_rate_id` int(11) DEFAULT NULL,
+  `tax` varchar(55) DEFAULT NULL,
+  `discount` varchar(55) DEFAULT NULL,
+  `item_discount` decimal(25,4) DEFAULT NULL,
+  `subtotal` decimal(25,4) NOT NULL,
+  `serial_no` varchar(255) DEFAULT NULL,
+  `real_unit_price` decimal(25,4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `quote_id` (`quote_id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_quotes
+#
+
+DROP TABLE IF EXISTS `sma_quotes`;
+
+CREATE TABLE `sma_quotes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `reference_no` varchar(55) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `customer` varchar(55) NOT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
+  `biller_id` int(11) NOT NULL,
+  `biller` varchar(55) NOT NULL,
+  `note` varchar(1000) DEFAULT NULL,
+  `internal_note` varchar(1000) DEFAULT NULL,
+  `total` decimal(25,4) NOT NULL,
+  `product_discount` decimal(25,4) DEFAULT '0.0000',
+  `order_discount` decimal(25,4) DEFAULT NULL,
+  `order_discount_id` varchar(20) DEFAULT NULL,
+  `total_discount` decimal(25,4) DEFAULT '0.0000',
+  `product_tax` decimal(25,4) DEFAULT '0.0000',
+  `order_tax_id` int(11) DEFAULT NULL,
+  `order_tax` decimal(25,4) DEFAULT NULL,
+  `total_tax` decimal(25,4) DEFAULT NULL,
+  `shipping` decimal(25,4) DEFAULT '0.0000',
+  `grand_total` decimal(25,4) NOT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `attachment` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_return_items
+#
+
+DROP TABLE IF EXISTS `sma_return_items`;
+
+CREATE TABLE `sma_return_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sale_id` int(11) unsigned NOT NULL,
+  `return_id` int(11) unsigned NOT NULL,
+  `sale_item_id` int(11) DEFAULT NULL,
+  `product_id` int(11) unsigned NOT NULL,
+  `product_code` varchar(55) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `product_type` varchar(20) DEFAULT NULL,
+  `option_id` int(11) DEFAULT NULL,
+  `net_unit_price` decimal(25,4) NOT NULL,
+  `quantity` decimal(15,4) DEFAULT '0.0000',
+  `warehouse_id` int(11) DEFAULT NULL,
+  `item_tax` decimal(25,4) DEFAULT NULL,
+  `tax_rate_id` int(11) DEFAULT NULL,
+  `tax` varchar(55) DEFAULT NULL,
+  `discount` varchar(55) DEFAULT NULL,
+  `item_discount` decimal(25,4) DEFAULT NULL,
+  `subtotal` decimal(25,4) NOT NULL,
+  `serial_no` varchar(255) DEFAULT NULL,
+  `real_unit_price` decimal(25,4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sale_id` (`sale_id`),
+  KEY `product_id` (`product_id`),
+  KEY `product_id_2` (`product_id`,`sale_id`),
+  KEY `sale_id_2` (`sale_id`,`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_return_sales
+#
+
+DROP TABLE IF EXISTS `sma_return_sales`;
+
+CREATE TABLE `sma_return_sales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sale_id` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `reference_no` varchar(55) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `customer` varchar(55) NOT NULL,
+  `biller_id` int(11) NOT NULL,
+  `biller` varchar(55) NOT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
+  `note` varchar(1000) DEFAULT NULL,
+  `total` decimal(25,4) NOT NULL,
+  `product_discount` decimal(25,4) DEFAULT '0.0000',
+  `order_discount_id` varchar(20) DEFAULT NULL,
+  `total_discount` decimal(25,4) DEFAULT '0.0000',
+  `order_discount` decimal(25,4) DEFAULT '0.0000',
+  `product_tax` decimal(25,4) DEFAULT '0.0000',
+  `order_tax_id` int(11) DEFAULT NULL,
+  `order_tax` decimal(25,4) DEFAULT '0.0000',
+  `total_tax` decimal(25,4) DEFAULT '0.0000',
+  `surcharge` decimal(25,4) DEFAULT '0.0000',
+  `grand_total` decimal(25,4) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `attachment` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_sale_items
+#
+
+DROP TABLE IF EXISTS `sma_sale_items`;
+
+CREATE TABLE `sma_sale_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sale_id` int(11) unsigned NOT NULL,
+  `product_id` int(11) unsigned NOT NULL,
+  `product_code` varchar(55) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `product_type` varchar(20) DEFAULT NULL,
+  `option_id` int(11) DEFAULT NULL,
+  `net_unit_price` decimal(25,4) NOT NULL,
+  `unit_price` decimal(25,4) DEFAULT NULL,
+  `quantity` decimal(15,4) NOT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
+  `item_tax` decimal(25,4) DEFAULT NULL,
+  `tax_rate_id` int(11) DEFAULT NULL,
+  `tax` varchar(55) DEFAULT NULL,
+  `discount` varchar(55) DEFAULT NULL,
+  `item_discount` decimal(25,4) DEFAULT NULL,
+  `subtotal` decimal(25,4) NOT NULL,
+  `serial_no` varchar(255) DEFAULT NULL,
+  `real_unit_price` decimal(25,4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sale_id` (`sale_id`),
+  KEY `product_id` (`product_id`),
+  KEY `product_id_2` (`product_id`,`sale_id`),
+  KEY `sale_id_2` (`sale_id`,`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_sales
+#
+
+DROP TABLE IF EXISTS `sma_sales`;
+
+CREATE TABLE `sma_sales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `reference_no` varchar(55) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `customer` varchar(55) NOT NULL,
+  `biller_id` int(11) NOT NULL,
+  `biller` varchar(55) NOT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
+  `note` varchar(1000) DEFAULT NULL,
+  `staff_note` varchar(1000) DEFAULT NULL,
+  `total` decimal(25,4) NOT NULL,
+  `product_discount` decimal(25,4) DEFAULT '0.0000',
+  `order_discount_id` varchar(20) DEFAULT NULL,
+  `total_discount` decimal(25,4) DEFAULT '0.0000',
+  `order_discount` decimal(25,4) DEFAULT '0.0000',
+  `product_tax` decimal(25,4) DEFAULT '0.0000',
+  `order_tax_id` int(11) DEFAULT NULL,
+  `order_tax` decimal(25,4) DEFAULT '0.0000',
+  `total_tax` decimal(25,4) DEFAULT '0.0000',
+  `shipping` decimal(25,4) DEFAULT '0.0000',
+  `grand_total` decimal(25,4) NOT NULL,
+  `sale_status` varchar(20) DEFAULT NULL,
+  `payment_status` varchar(20) DEFAULT NULL,
+  `payment_term` tinyint(4) DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `total_items` tinyint(4) DEFAULT NULL,
+  `pos` tinyint(1) NOT NULL DEFAULT '0',
+  `paid` decimal(25,4) DEFAULT '0.0000',
+  `return_id` int(11) DEFAULT NULL,
+  `surcharge` decimal(25,4) NOT NULL DEFAULT '0.0000',
+  `attachment` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_sessions
+#
+
+DROP TABLE IF EXISTS `sma_sessions`;
+
+CREATE TABLE `sma_sessions` (
+  `id` varchar(40) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `timestamp` int(10) unsigned NOT NULL DEFAULT '0',
+  `data` blob NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ci_sessions_timestamp` (`timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('05213ca9a943d11750fadd926612811062cf4d44', '122.177.110.151', '1449115507', '__ci_last_regenerate|i:1449115452;identity|s:15:\"admin@logos.com\";username|s:15:\"admin@logos.com\";email|s:15:\"admin@logos.com\";user_id|s:1:\"3\";old_last_login|s:10:\"1449085612\";last_ip|N;avatar|N;gender|s:4:\"male\";group_id|s:1:\"2\";warehouse_id|s:1:\"0\";biller_id|s:1:\"3\";company_id|N;show_cost|s:1:\"0\";show_price|s:1:\"0\";message|s:38:\"<p>You are successfully logged in.</p>\";__ci_vars|a:1:{s:7:\"message\";s:3:\"old\";}');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('084ee1c3710fa59c4309b424d8c7961b2cb784bb', '116.203.31.109', '1449131539', '__ci_last_regenerate|i:1449131507;identity|s:15:\"admin@logos.com\";username|s:15:\"admin@logos.com\";email|s:15:\"admin@logos.com\";user_id|s:1:\"3\";old_last_login|s:10:\"1449115506\";last_ip|s:15:\"122.177.110.151\";avatar|N;gender|s:4:\"male\";group_id|s:1:\"2\";warehouse_id|s:1:\"0\";biller_id|s:1:\"3\";company_id|N;show_cost|s:1:\"0\";show_price|s:1:\"0\";message|s:38:\"<p>You are successfully logged in.</p>\";__ci_vars|a:1:{s:7:\"message\";s:3:\"old\";}');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('13f62054d8a70e60510fe2fb5682ff18b3e2c62e', '23.101.61.176', '1449130779', '__ci_last_regenerate|i:1449130779;');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('144545766f984382b8688391ed8068f1f20abc33', '122.160.123.254', '1449262516', '__ci_last_regenerate|i:1449262516;');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('1e440851a9cf75396aecca6a7dbdb87c61487d38', '123.252.208.200', '1449085378', '__ci_last_regenerate|i:1449085078;requested_page|s:15:\"system_settings\";identity|s:18:\"owner@tecdiary.com\";username|s:5:\"owner\";email|s:18:\"owner@tecdiary.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1449062011\";last_ip|s:13:\"202.91.134.67\";avatar|N;gender|s:4:\"male\";group_id|s:1:\"1\";warehouse_id|N;biller_id|N;company_id|N;show_cost|s:1:\"0\";show_price|s:1:\"0\";last_activity|i:1449084412;__ci_vars|a:1:{s:7:\"warning\";s:3:\"new\";}warning|s:126:\"Access Denied! You don\'t have right to access the requested page. If you think, it\'s by mistake, please contact administrator.\";');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('22536aa2125b7786d333410cb068387ac1aadd76', '122.177.110.151', '1449275152', '__ci_last_regenerate|i:1449274899;identity|s:15:\"owner@logos.com\";username|s:15:\"owner@logos.com\";email|s:15:\"owner@logos.com\";user_id|s:1:\"2\";old_last_login|s:10:\"1449086442\";last_ip|s:15:\"123.252.208.200\";avatar|N;gender|s:4:\"male\";group_id|s:1:\"1\";warehouse_id|s:1:\"0\";biller_id|s:1:\"3\";company_id|N;show_cost|s:1:\"0\";show_price|s:1:\"0\";');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('48a277101d95046a1ad1249313be3234b68d2072', '122.177.110.151', '1449267173', '__ci_last_regenerate|i:1449267173;requested_page|s:0:\"\";');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('4cc0a559794f253d6a5d03e703de959f8ef09c57', '123.252.208.200', '1449086696', '__ci_last_regenerate|i:1449086696;');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('4ec21784e698bd2c69ca4008b81e61760d3bf412', '122.177.110.151', '1449256331', '__ci_last_regenerate|i:1449256264;requested_page|s:0:\"\";');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('60a922db8ce1e702dd45b9cb139f1556fd288074', '202.91.134.67', '1449061480', '__ci_last_regenerate|i:1449061326;requested_page|s:0:\"\";error|s:37:\"<p>Login Failed, Please try again</p>\";__ci_vars|a:1:{s:5:\"error\";s:3:\"old\";}');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('6fa9fdff48d79929e709871813aec26ecc28d38d', '123.252.208.200', '1449086135', '__ci_last_regenerate|i:1449086135;');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('70cc079312994d7608735994b5cd5c9d16503aae', '123.252.208.200', '1449084420', '__ci_last_regenerate|i:1449084176;requested_page|s:15:\"system_settings\";identity|s:18:\"owner@tecdiary.com\";username|s:5:\"owner\";email|s:18:\"owner@tecdiary.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1449062011\";last_ip|s:13:\"202.91.134.67\";avatar|N;gender|s:4:\"male\";group_id|s:1:\"1\";warehouse_id|N;biller_id|N;company_id|N;show_cost|s:1:\"0\";show_price|s:1:\"0\";last_activity|i:1449084412;');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('9d866bf980db18658f3f90fa7e29f8d4f25f4566', '23.101.61.176', '1449126989', '__ci_last_regenerate|i:1449126989;');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('9e0a8b46c44b650108167f32e8cd8f82f71c6ceb', '122.177.110.151', '1449275351', '__ci_last_regenerate|i:1449275201;identity|s:15:\"owner@logos.com\";username|s:15:\"owner@logos.com\";email|s:15:\"owner@logos.com\";user_id|s:1:\"2\";old_last_login|s:10:\"1449086442\";last_ip|s:15:\"123.252.208.200\";avatar|N;gender|s:4:\"male\";group_id|s:1:\"1\";warehouse_id|s:1:\"0\";biller_id|s:1:\"3\";company_id|N;show_cost|s:1:\"0\";show_price|s:1:\"0\";');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('9fa21b25d82e2eac315ece508d79af8b7b7e6c55', '122.177.110.151', '1449267175', '__ci_last_regenerate|i:1449267175;');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('a75d5882282e324adf6c3dbdf5019ddc57edfdce', '202.91.134.67', '1449060298', '__ci_last_regenerate|i:1449060293;requested_page|s:0:\"\";');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('b684f53e20a3a6d8a40fa1a80c2005b6b7fb556c', '116.202.252.83', '1449155557', '__ci_last_regenerate|i:1449155405;identity|s:15:\"admin@logos.com\";username|s:15:\"admin@logos.com\";email|s:15:\"admin@logos.com\";user_id|s:1:\"3\";old_last_login|s:10:\"1449131538\";last_ip|s:14:\"116.203.31.109\";avatar|N;gender|s:4:\"male\";group_id|s:1:\"2\";warehouse_id|s:1:\"0\";biller_id|s:1:\"3\";company_id|N;show_cost|s:1:\"0\";show_price|s:1:\"0\";');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('c1bdf4ca3a86a81b90a6245b41d965bea049db7e', '104.45.18.178', '1449131500', '__ci_last_regenerate|i:1449131500;');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('c4c7f4f7e4884c5847b8467095e3226c4b6992ed', '123.252.208.200', '1449087225', '__ci_last_regenerate|i:1449087225;');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('c59edc6996b5732e9c2d717a7ea3e904a2564252', '202.91.134.67', '1449062148', '__ci_last_regenerate|i:1449062004;requested_page|s:0:\"\";identity|s:18:\"owner@tecdiary.com\";username|s:5:\"owner\";email|s:18:\"owner@tecdiary.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1426618492\";last_ip|s:9:\"127.0.0.1\";avatar|N;gender|s:4:\"male\";group_id|s:1:\"1\";warehouse_id|N;biller_id|N;company_id|N;show_cost|s:1:\"0\";show_price|s:1:\"0\";');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('d0a34286ab2c8b5a291e2cc14f136428a311502f', '122.160.123.254', '1449262515', '__ci_last_regenerate|i:1449262515;requested_page|s:0:\"\";');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('ec1be13d10a0ce8635a0933e9acf23cc2877ebb7', '122.177.110.151', '1449274898', '__ci_last_regenerate|i:1449274898;requested_page|s:0:\"\";');
+INSERT INTO `sma_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES ('f2da752e5e5367dbdce2883385e6050437f3d5c6', '123.252.208.200', '1449085676', '__ci_last_regenerate|i:1449085495;identity|s:15:\"owner@logos.com\";username|s:15:\"owner@logos.com\";email|s:15:\"owner@logos.com\";user_id|s:1:\"2\";old_last_login|s:10:\"1449085267\";last_ip|N;avatar|N;gender|s:4:\"male\";group_id|s:1:\"1\";warehouse_id|s:1:\"0\";biller_id|s:1:\"3\";company_id|N;show_cost|s:1:\"0\";show_price|s:1:\"0\";');
+
+
+#
+# TABLE STRUCTURE FOR: sma_settings
+#
+
+DROP TABLE IF EXISTS `sma_settings`;
+
+CREATE TABLE `sma_settings` (
+  `setting_id` int(1) NOT NULL,
+  `logo` varchar(255) NOT NULL,
+  `logo2` varchar(255) NOT NULL,
+  `site_name` varchar(55) NOT NULL,
+  `language` varchar(20) NOT NULL,
+  `default_warehouse` int(2) NOT NULL,
+  `accounting_method` tinyint(4) NOT NULL DEFAULT '0',
+  `default_currency` varchar(3) NOT NULL,
+  `default_tax_rate` int(2) NOT NULL,
+  `rows_per_page` int(2) NOT NULL,
+  `version` varchar(10) NOT NULL DEFAULT '1.0',
+  `default_tax_rate2` int(11) NOT NULL DEFAULT '0',
+  `dateformat` int(11) NOT NULL,
+  `sales_prefix` varchar(20) DEFAULT NULL,
+  `quote_prefix` varchar(20) DEFAULT NULL,
+  `purchase_prefix` varchar(20) DEFAULT NULL,
+  `transfer_prefix` varchar(20) DEFAULT NULL,
+  `delivery_prefix` varchar(20) DEFAULT NULL,
+  `payment_prefix` varchar(20) DEFAULT NULL,
+  `return_prefix` varchar(20) DEFAULT NULL,
+  `expense_prefix` varchar(20) DEFAULT NULL,
+  `item_addition` tinyint(1) NOT NULL DEFAULT '0',
+  `theme` varchar(20) NOT NULL,
+  `product_serial` tinyint(4) NOT NULL,
+  `default_discount` int(11) NOT NULL,
+  `product_discount` tinyint(1) NOT NULL DEFAULT '0',
+  `discount_method` tinyint(4) NOT NULL,
+  `tax1` tinyint(4) NOT NULL,
+  `tax2` tinyint(4) NOT NULL,
+  `overselling` tinyint(1) NOT NULL DEFAULT '0',
+  `restrict_user` tinyint(4) NOT NULL DEFAULT '0',
+  `restrict_calendar` tinyint(4) NOT NULL DEFAULT '0',
+  `timezone` varchar(100) DEFAULT NULL,
+  `iwidth` int(11) NOT NULL DEFAULT '0',
+  `iheight` int(11) NOT NULL,
+  `twidth` int(11) NOT NULL,
+  `theight` int(11) NOT NULL,
+  `watermark` tinyint(1) DEFAULT NULL,
+  `reg_ver` tinyint(1) DEFAULT NULL,
+  `allow_reg` tinyint(1) DEFAULT NULL,
+  `reg_notification` tinyint(1) DEFAULT NULL,
+  `auto_reg` tinyint(1) DEFAULT NULL,
+  `protocol` varchar(20) NOT NULL DEFAULT 'mail',
+  `mailpath` varchar(55) DEFAULT '/usr/sbin/sendmail',
+  `smtp_host` varchar(100) DEFAULT NULL,
+  `smtp_user` varchar(100) DEFAULT NULL,
+  `smtp_pass` varchar(255) DEFAULT NULL,
+  `smtp_port` varchar(10) DEFAULT '25',
+  `smtp_crypto` varchar(10) DEFAULT NULL,
+  `corn` datetime DEFAULT NULL,
+  `customer_group` int(11) NOT NULL,
+  `default_email` varchar(100) NOT NULL,
+  `mmode` tinyint(1) NOT NULL,
+  `bc_fix` tinyint(4) NOT NULL DEFAULT '0',
+  `auto_detect_barcode` tinyint(1) NOT NULL DEFAULT '0',
+  `captcha` tinyint(1) NOT NULL DEFAULT '1',
+  `reference_format` tinyint(1) NOT NULL DEFAULT '1',
+  `racks` tinyint(1) DEFAULT '0',
+  `attributes` tinyint(1) NOT NULL DEFAULT '0',
+  `product_expiry` tinyint(1) NOT NULL DEFAULT '0',
+  `decimals` tinyint(2) NOT NULL DEFAULT '2',
+  `qty_decimals` tinyint(2) NOT NULL DEFAULT '2',
+  `decimals_sep` varchar(2) NOT NULL DEFAULT '.',
+  `thousands_sep` varchar(2) NOT NULL DEFAULT ',',
+  `invoice_view` tinyint(1) DEFAULT '0',
+  `default_biller` int(11) DEFAULT NULL,
+  `envato_username` varchar(50) DEFAULT NULL,
+  `purchase_code` varchar(100) DEFAULT NULL,
+  `rtl` tinyint(1) DEFAULT '0',
+  `each_spent` decimal(15,4) DEFAULT NULL,
+  `ca_point` tinyint(4) DEFAULT NULL,
+  `each_sale` decimal(15,4) DEFAULT NULL,
+  `sa_point` tinyint(4) DEFAULT NULL,
+  `update` tinyint(1) DEFAULT '0',
+  `sac` tinyint(1) DEFAULT '0',
+  `display_all_products` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`setting_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_settings` (`setting_id`, `logo`, `logo2`, `site_name`, `language`, `default_warehouse`, `accounting_method`, `default_currency`, `default_tax_rate`, `rows_per_page`, `version`, `default_tax_rate2`, `dateformat`, `sales_prefix`, `quote_prefix`, `purchase_prefix`, `transfer_prefix`, `delivery_prefix`, `payment_prefix`, `return_prefix`, `expense_prefix`, `item_addition`, `theme`, `product_serial`, `default_discount`, `product_discount`, `discount_method`, `tax1`, `tax2`, `overselling`, `restrict_user`, `restrict_calendar`, `timezone`, `iwidth`, `iheight`, `twidth`, `theight`, `watermark`, `reg_ver`, `allow_reg`, `reg_notification`, `auto_reg`, `protocol`, `mailpath`, `smtp_host`, `smtp_user`, `smtp_pass`, `smtp_port`, `smtp_crypto`, `corn`, `customer_group`, `default_email`, `mmode`, `bc_fix`, `auto_detect_barcode`, `captcha`, `reference_format`, `racks`, `attributes`, `product_expiry`, `decimals`, `qty_decimals`, `decimals_sep`, `thousands_sep`, `invoice_view`, `default_biller`, `envato_username`, `purchase_code`, `rtl`, `each_spent`, `ca_point`, `each_sale`, `sa_point`, `update`, `sac`, `display_all_products`) VALUES ('1', 'logo2.png', 'logo3.png', 'Logos Stock Manager', 'english', '1', '0', 'USD', '1', '10', '3.0.1.21', '1', '5', 'SALE', 'QUOTE', 'PO', 'TR', 'DO', 'IPAY', 'RETURNSL', '', '0', 'default', '1', '1', '1', '1', '1', '1', '0', '1', '0', 'Asia/Kolkata', '800', '800', '60', '60', '0', '0', '0', '0', NULL, 'mail', '/usr/sbin/sendmail', 'pop.gmail.com', 'contact@tecdiary.com', 'jEFTM4T63AiQ9dsidxhPKt9CIg4HQjCN58n/RW9vmdC/UDXCzRLR469ziZ0jjpFlbOg43LyoSmpJLBkcAHh0Yw==', '25', NULL, NULL, '1', 'contact@logos.com', '0', '4', '1', '0', '2', '1', '1', '0', '2', '2', '.', ',', '0', '3', 'rohitkachroo', 'd4272463-f846-48b5-827d-8b8990b63809', '0', NULL, NULL, NULL, NULL, '0', '0', '0');
+
+
+#
+# TABLE STRUCTURE FOR: sma_skrill
+#
+
+DROP TABLE IF EXISTS `sma_skrill`;
+
+CREATE TABLE `sma_skrill` (
+  `id` int(11) NOT NULL,
+  `active` tinyint(4) NOT NULL,
+  `account_email` varchar(255) NOT NULL DEFAULT 'testaccount2@moneybookers.com',
+  `secret_word` varchar(20) NOT NULL DEFAULT 'mbtest',
+  `skrill_currency` varchar(3) NOT NULL DEFAULT 'USD',
+  `fixed_charges` decimal(25,4) NOT NULL DEFAULT '0.0000',
+  `extra_charges_my` decimal(25,4) NOT NULL DEFAULT '0.0000',
+  `extra_charges_other` decimal(25,4) NOT NULL DEFAULT '0.0000',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_skrill` (`id`, `active`, `account_email`, `secret_word`, `skrill_currency`, `fixed_charges`, `extra_charges_my`, `extra_charges_other`) VALUES ('1', '1', 'testaccount2@moneybookers.com', 'mbtest', 'USD', '0.0000', '0.0000', '0.0000');
+
+
+#
+# TABLE STRUCTURE FOR: sma_subcategories
+#
+
+DROP TABLE IF EXISTS `sma_subcategories`;
+
+CREATE TABLE `sma_subcategories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `code` varchar(55) NOT NULL,
+  `name` varchar(55) NOT NULL,
+  `image` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_suspended_bills
+#
+
+DROP TABLE IF EXISTS `sma_suspended_bills`;
+
+CREATE TABLE `sma_suspended_bills` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `customer_id` int(11) NOT NULL,
+  `customer` varchar(55) DEFAULT NULL,
+  `count` int(11) NOT NULL,
+  `order_discount_id` varchar(20) DEFAULT NULL,
+  `order_tax_id` int(11) DEFAULT NULL,
+  `total` decimal(25,4) NOT NULL,
+  `biller_id` int(11) DEFAULT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
+  `created_by` int(11) NOT NULL,
+  `suspend_note` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_suspended_items
+#
+
+DROP TABLE IF EXISTS `sma_suspended_items`;
+
+CREATE TABLE `sma_suspended_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `suspend_id` int(11) unsigned NOT NULL,
+  `product_id` int(11) unsigned NOT NULL,
+  `product_code` varchar(55) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `net_unit_price` decimal(25,4) NOT NULL,
+  `unit_price` decimal(25,4) NOT NULL,
+  `quantity` decimal(15,4) DEFAULT '0.0000',
+  `warehouse_id` int(11) DEFAULT NULL,
+  `item_tax` decimal(25,4) DEFAULT NULL,
+  `tax_rate_id` int(11) DEFAULT NULL,
+  `tax` varchar(55) DEFAULT NULL,
+  `discount` varchar(55) DEFAULT NULL,
+  `item_discount` decimal(25,4) DEFAULT NULL,
+  `subtotal` decimal(25,4) NOT NULL,
+  `serial_no` varchar(255) DEFAULT NULL,
+  `option_id` int(11) DEFAULT NULL,
+  `product_type` varchar(20) DEFAULT NULL,
+  `real_unit_price` decimal(25,4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_tax_rates
+#
+
+DROP TABLE IF EXISTS `sma_tax_rates`;
+
+CREATE TABLE `sma_tax_rates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(55) NOT NULL,
+  `code` varchar(10) DEFAULT NULL,
+  `rate` decimal(12,4) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_tax_rates` (`id`, `name`, `code`, `rate`, `type`) VALUES ('1', 'No Tax', 'NT', '0.0000', '2');
+INSERT INTO `sma_tax_rates` (`id`, `name`, `code`, `rate`, `type`) VALUES ('2', 'VAT @10%', 'VAT10', '10.0000', '1');
+INSERT INTO `sma_tax_rates` (`id`, `name`, `code`, `rate`, `type`) VALUES ('3', 'GST @6%', 'GST', '6.0000', '1');
+INSERT INTO `sma_tax_rates` (`id`, `name`, `code`, `rate`, `type`) VALUES ('4', 'VAT @20%', 'VT20', '20.0000', '1');
+
+
+#
+# TABLE STRUCTURE FOR: sma_transfer_items
+#
+
+DROP TABLE IF EXISTS `sma_transfer_items`;
+
+CREATE TABLE `sma_transfer_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `transfer_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_code` varchar(55) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `option_id` int(11) DEFAULT NULL,
+  `expiry` date DEFAULT NULL,
+  `quantity` decimal(15,4) NOT NULL,
+  `tax_rate_id` int(11) DEFAULT NULL,
+  `tax` varchar(55) DEFAULT NULL,
+  `item_tax` decimal(25,4) DEFAULT NULL,
+  `net_unit_cost` decimal(25,4) DEFAULT NULL,
+  `subtotal` decimal(25,4) DEFAULT NULL,
+  `quantity_balance` decimal(15,4) NOT NULL,
+  `unit_cost` decimal(25,4) DEFAULT NULL,
+  `real_unit_cost` decimal(25,4) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `transfer_id` (`transfer_id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_transfers
+#
+
+DROP TABLE IF EXISTS `sma_transfers`;
+
+CREATE TABLE `sma_transfers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `transfer_no` varchar(55) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `from_warehouse_id` int(11) NOT NULL,
+  `from_warehouse_code` varchar(55) NOT NULL,
+  `from_warehouse_name` varchar(55) NOT NULL,
+  `to_warehouse_id` int(11) NOT NULL,
+  `to_warehouse_code` varchar(55) NOT NULL,
+  `to_warehouse_name` varchar(55) NOT NULL,
+  `note` varchar(1000) DEFAULT NULL,
+  `total` decimal(25,4) DEFAULT NULL,
+  `total_tax` decimal(25,4) DEFAULT NULL,
+  `grand_total` decimal(25,4) DEFAULT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
+  `status` varchar(55) NOT NULL DEFAULT 'pending',
+  `shipping` decimal(25,4) NOT NULL DEFAULT '0.0000',
+  `attachment` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_user_logins
+#
+
+DROP TABLE IF EXISTS `sma_user_logins`;
+
+CREATE TABLE `sma_user_logins` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `ip_address` varbinary(16) NOT NULL,
+  `login` varchar(100) NOT NULL,
+  `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_user_logins` (`id`, `user_id`, `company_id`, `ip_address`, `login`, `time`) VALUES ('1', '1', NULL, '202.91.134.67', 'owner@tecdiary.com', '2015-12-02 07:13:31');
+INSERT INTO `sma_user_logins` (`id`, `user_id`, `company_id`, `ip_address`, `login`, `time`) VALUES ('2', '1', NULL, '123.252.208.200', 'owner@tecdiary.com', '2015-12-02 13:23:10');
+INSERT INTO `sma_user_logins` (`id`, `user_id`, `company_id`, `ip_address`, `login`, `time`) VALUES ('3', '2', NULL, '123.252.208.200', 'owner@logos.com', '2015-12-02 13:45:21');
+INSERT INTO `sma_user_logins` (`id`, `user_id`, `company_id`, `ip_address`, `login`, `time`) VALUES ('4', '2', NULL, '123.252.208.200', 'owner@logos.com', '2015-12-02 14:00:42');
+INSERT INTO `sma_user_logins` (`id`, `user_id`, `company_id`, `ip_address`, `login`, `time`) VALUES ('5', '3', NULL, '122.177.110.151', 'admin@logos.com', '2015-12-02 22:05:06');
+INSERT INTO `sma_user_logins` (`id`, `user_id`, `company_id`, `ip_address`, `login`, `time`) VALUES ('6', '3', NULL, '116.203.31.109', 'admin@logos.com', '2015-12-03 02:32:18');
+INSERT INTO `sma_user_logins` (`id`, `user_id`, `company_id`, `ip_address`, `login`, `time`) VALUES ('7', '3', NULL, '116.202.252.83', 'admin@logos.com', '2015-12-03 09:10:41');
+INSERT INTO `sma_user_logins` (`id`, `user_id`, `company_id`, `ip_address`, `login`, `time`) VALUES ('8', '2', NULL, '122.177.110.151', 'owner@logos.com', '2015-12-04 18:22:01');
+
+
+#
+# TABLE STRUCTURE FOR: sma_users
+#
+
+DROP TABLE IF EXISTS `sma_users`;
+
+CREATE TABLE `sma_users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `last_ip_address` varbinary(45) DEFAULT NULL,
+  `ip_address` varbinary(45) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `salt` varchar(40) DEFAULT NULL,
+  `email` varchar(100) NOT NULL,
+  `activation_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_time` int(11) unsigned DEFAULT NULL,
+  `remember_code` varchar(40) DEFAULT NULL,
+  `created_on` int(11) unsigned NOT NULL,
+  `last_login` int(11) unsigned DEFAULT NULL,
+  `active` tinyint(1) unsigned DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `company` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `avatar` varchar(55) DEFAULT NULL,
+  `gender` varchar(20) DEFAULT NULL,
+  `group_id` int(10) unsigned NOT NULL,
+  `warehouse_id` int(10) unsigned DEFAULT NULL,
+  `biller_id` int(10) unsigned DEFAULT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `show_cost` tinyint(1) DEFAULT '0',
+  `show_price` tinyint(1) DEFAULT '0',
+  `award_points` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `group_id` (`group_id`,`warehouse_id`,`biller_id`),
+  KEY `group_id_2` (`group_id`,`company_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_users` (`id`, `last_ip_address`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `avatar`, `gender`, `group_id`, `warehouse_id`, `biller_id`, `company_id`, `show_cost`, `show_price`, `award_points`) VALUES ('2', '122.177.110.151', '123.252.208.200', 'owner@logos.com', 'af6aac4d8dbf0f71a1dd3c6dc067707bc78f0933', NULL, 'owner@logos.com', NULL, NULL, NULL, NULL, '1449085267', '1449274921', '1', 'Owner', 'Logos', 'Logos', '1234567890', NULL, 'male', '1', '0', '3', NULL, '0', '0', '0');
+INSERT INTO `sma_users` (`id`, `last_ip_address`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `avatar`, `gender`, `group_id`, `warehouse_id`, `biller_id`, `company_id`, `show_cost`, `show_price`, `award_points`) VALUES ('3', '116.202.252.83', '123.252.208.200', 'admin@logos.com', 'b62e22ba723d99a57c6311a3c2e7be727eed309b', NULL, 'admin@logos.com', NULL, NULL, NULL, NULL, '1449085612', '1449155441', '1', 'admin', 'admin', 'Logos', '12345678901', NULL, 'male', '2', '0', '3', NULL, '0', '0', '0');
+
+
+#
+# TABLE STRUCTURE FOR: sma_variants
+#
+
+DROP TABLE IF EXISTS `sma_variants`;
+
+CREATE TABLE `sma_variants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(55) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_warehouses
+#
+
+DROP TABLE IF EXISTS `sma_warehouses`;
+
+CREATE TABLE `sma_warehouses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `map` varchar(255) DEFAULT NULL,
+  `phone` varchar(55) DEFAULT NULL,
+  `email` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sma_warehouses` (`id`, `code`, `name`, `address`, `map`, `phone`, `email`) VALUES ('1', 'WHI', 'Warehouse 1', '<p>Address, City</p>', NULL, '012345678', 'whi@tecdiary.com');
+INSERT INTO `sma_warehouses` (`id`, `code`, `name`, `address`, `map`, `phone`, `email`) VALUES ('2', 'WHII', 'Warehouse 2', '<p>Warehouse 2, Jalan Sultan Ismail, 54000, Kuala Lumpur</p>', NULL, '0105292122', 'whii@tecdiary.com');
+
+
+#
+# TABLE STRUCTURE FOR: sma_warehouses_products
+#
+
+DROP TABLE IF EXISTS `sma_warehouses_products`;
+
+CREATE TABLE `sma_warehouses_products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `warehouse_id` int(11) NOT NULL,
+  `quantity` decimal(15,4) NOT NULL,
+  `rack` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  KEY `warehouse_id` (`warehouse_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: sma_warehouses_products_variants
+#
+
+DROP TABLE IF EXISTS `sma_warehouses_products_variants`;
+
+CREATE TABLE `sma_warehouses_products_variants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `option_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `warehouse_id` int(11) NOT NULL,
+  `quantity` decimal(15,4) NOT NULL,
+  `rack` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `option_id` (`option_id`),
+  KEY `product_id` (`product_id`),
+  KEY `warehouse_id` (`warehouse_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
