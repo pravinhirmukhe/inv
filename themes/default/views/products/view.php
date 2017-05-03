@@ -118,10 +118,12 @@
                                                 <td><?= lang("product_code"); ?></td>
                                                 <td><?php echo $product->code; ?></td>
                                             </tr>
-                                            <tr>
-                                                <td><?= lang("product_qty"); ?></td>
-                                                <td><?= $product->quantity; ?> ( <?= $product->unit; ?> ) </td>
-                                            </tr>
+                                            <?php if ($product->type != 'combo' && $product->type != 'bundle') { ?>
+                                                <tr>
+                                                    <td><?= lang("product_qty"); ?></td>
+                                                    <td><?= $product->quantity; ?> ( <?= $product->unit; ?> )</td>
+                                                </tr>
+                                            <?php } ?>
                                             <?php
                                             if ($Owner || $Admin) {
                                                 echo '<tr><td>' . $this->lang->line("product_cost") . '</td><td>' . $this->sma->formatMoney($product->cost) . '</td></tr>';
@@ -368,19 +370,19 @@
                                 <div class="btn-group btn-group-justified">
                                     <div class="btn-group">
                                         <a onclick="window.open('<?= site_url('products/single_barcode/' . $product->id) ?>', 'sma_popup', 'width=900,height=600,menubar=yes,scrollbars=yes,status=no,resizable=yes,screenx=0,screeny=0');
-                                                return false;" href="#" class="tip btn btn-primary" title="<?= lang('barcode') ?>">
+                                                    return false;" href="#" class="tip btn btn-primary" title="<?= lang('barcode') ?>">
                                             <i class="fa fa-print"></i> <span class="hidden-sm hidden-xs"><?= lang('print_barcode') ?></span>
                                         </a>
                                     </div>
                                     <div class="btn-group">
                                         <a onclick="window.open('<?= site_url('products/single_label/' . $product->id) ?>', 'sma_popup', 'width=900,height=600,menubar=yes,scrollbars=yes,status=no,resizable=yes,screenx=0,screeny=0');
-                                                return false;" href="#" class="tip btn btn-primary" title="<?= lang('label') ?>">
+                                                    return false;" href="#" class="tip btn btn-primary" title="<?= lang('label') ?>">
                                             <i class="fa fa-print"></i> <span class="hidden-sm hidden-xs"><?= lang('print_label') ?></span>
                                         </a>
                                     </div>
                                     <div class="btn-group">
                                         <a onclick="window.open('<?= site_url('products/single_label2/' . $product->id) ?>', 'sma_popup', 'width=900,height=600,menubar=yes,scrollbars=yes,status=no,resizable=yes,screenx=0,screeny=0');
-                                                return false;" href="#" class="tip btn btn-primary" title="<?= lang('label_printer') ?>">
+                                                    return false;" href="#" class="tip btn btn-primary" title="<?= lang('label_printer') ?>">
                                             <i class="fa fa-print"></i> <span class="hidden-sm hidden-xs"><?= lang('label_printer') ?></span>
                                         </a>
                                     </div>

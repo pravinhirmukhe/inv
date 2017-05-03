@@ -1,10 +1,10 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
 
-class Sales extends MY_Controller
-{
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-    function __construct()
-    {
+class Sales extends MY_Controller {
+
+    function __construct() {
         parent::__construct();
 
         if (!$this->loggedIn) {
@@ -27,8 +27,7 @@ class Sales extends MY_Controller
         $this->data['logo'] = true;
     }
 
-    function index($warehouse_id = NULL)
-    {
+    function index($warehouse_id = NULL) {
         $this->sma->checkPermissions();
 
         $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
@@ -47,11 +46,10 @@ class Sales extends MY_Controller
         $this->page_construct('sales/index', $meta, $this->data);
     }
 
-    function getSales($warehouse_id = NULL)
-    {
+    function getSales($warehouse_id = NULL) {
         $this->sma->checkPermissions('index');
 
-        if ((! $this->Owner || ! $this->Admin) && ! $warehouse_id) {
+        if ((!$this->Owner || !$this->Admin) && !$warehouse_id) {
             $user = $this->site->getUser();
             $warehouse_id = $user->warehouse_id;
         }
@@ -64,12 +62,12 @@ class Sales extends MY_Controller
         $pdf_link = anchor('sales/pdf/$1', '<i class="fa fa-file-pdf-o"></i> ' . lang('download_pdf'));
         $return_link = anchor('sales/return_sale/$1', '<i class="fa fa-angle-double-left"></i> ' . lang('return_sale'));
         $delete_link = "<a href='#' class='po' title='<b>" . lang("delete_sale") . "</b>' data-content=\"<p>"
-            . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . site_url('sales/delete/$1') . "'>"
-            . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i> "
-            . lang('delete_sale') . "</a>";
+                . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . site_url('sales/delete/$1') . "'>"
+                . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i> "
+                . lang('delete_sale') . "</a>";
         $action = '<div class="text-center"><div class="btn-group text-left">'
-            . '<button type="button" class="btn btn-default btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">'
-            . lang('actions') . ' <span class="caret"></span></button>
+                . '<button type="button" class="btn btn-default btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">'
+                . lang('actions') . ' <span class="caret"></span></button>
         <ul class="dropdown-menu pull-right" role="menu">
             <li>' . $detail_link . '</li>
             <li>' . $payments_link . '</li>
@@ -87,13 +85,13 @@ class Sales extends MY_Controller
         $this->load->library('datatables');
         if ($warehouse_id) {
             $this->datatables
-                ->select("id, date, reference_no, biller, customer, sale_status, grand_total, paid, (grand_total-paid) as balance, payment_status")
-                ->from('sales')
-                ->where('warehouse_id', $warehouse_id);
+                    ->select("id, date, reference_no, biller, customer, sale_status, grand_total, paid, (grand_total-paid) as balance, payment_status")
+                    ->from('sales')
+                    ->where('warehouse_id', $warehouse_id);
         } else {
             $this->datatables
-                ->select("id, date, reference_no, biller, customer, sale_status, grand_total, paid, (grand_total-paid) as balance, payment_status")
-                ->from('sales');
+                    ->select("id, date, reference_no, biller, customer, sale_status, grand_total, paid, (grand_total-paid) as balance, payment_status")
+                    ->from('sales');
         }
         $this->datatables->where('pos !=', 1);
         if (!$this->Customer && !$this->Supplier && !$this->Owner && !$this->Admin) {
@@ -105,8 +103,7 @@ class Sales extends MY_Controller
         echo $this->datatables->generate();
     }
 
-    function return_sales($warehouse_id = NULL)
-    {
+    function return_sales($warehouse_id = NULL) {
         $this->sma->checkPermissions();
 
         $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
@@ -126,8 +123,7 @@ class Sales extends MY_Controller
         $this->page_construct('sales/return_sales', $meta, $this->data);
     }
 
-    function getReturns($warehouse_id = NULL)
-    {
+    function getReturns($warehouse_id = NULL) {
         $this->sma->checkPermissions('return_sales');
 
         if (!$this->Owner && !$warehouse_id) {
@@ -137,25 +133,25 @@ class Sales extends MY_Controller
         $detail_link = anchor('sales/view/$1', '<i class="fa fa-file-text-o"></i>');
         $edit_link = ''; //anchor('sales/edit/$1', '<i class="fa fa-edit"></i>', 'class="reedit"');
         $delete_link = "<a href='#' class='po' title='<b>" . lang("delete_return_sale") . "</b>' data-content=\"<p>"
-            . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . site_url('sales/delete_return/$1') . "'>"
-            . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a>";
+                . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . site_url('sales/delete_return/$1') . "'>"
+                . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a>";
         $action = '<div class="text-center">' . $detail_link . ' ' . $edit_link . ' ' . $delete_link . '</div>';
         //$action = '<div class="text-center">' . $detail_link . ' ' . $edit_link . ' ' . $email_link . ' ' . $delete_link . '</div>';
 
         $this->load->library('datatables');
         if ($warehouse_id) {
             $this->datatables
-                ->select($this->db->dbprefix('return_sales') . ".date as date, " . $this->db->dbprefix('return_sales') . ".reference_no as ref, " . $this->db->dbprefix('sales') . ".reference_no as sal_ref, " . $this->db->dbprefix('return_sales') . ".biller, " . $this->db->dbprefix('return_sales') . ".customer, " . $this->db->dbprefix('return_sales') . ".surcharge, " . $this->db->dbprefix('return_sales') . ".grand_total, " . $this->db->dbprefix('return_sales') . ".id as id")
-                ->join('sales', 'sales.id=return_sales.sale_id', 'left')
-                ->from('return_sales')
-                ->group_by('return_sales.id')
-                ->where('return_sales.warehouse_id', $warehouse_id);
+                    ->select($this->db->dbprefix('return_sales') . ".date as date, " . $this->db->dbprefix('return_sales') . ".reference_no as ref, " . $this->db->dbprefix('sales') . ".reference_no as sal_ref, " . $this->db->dbprefix('return_sales') . ".biller, " . $this->db->dbprefix('return_sales') . ".customer, " . $this->db->dbprefix('return_sales') . ".surcharge, " . $this->db->dbprefix('return_sales') . ".grand_total, " . $this->db->dbprefix('return_sales') . ".id as id")
+                    ->join('sales', 'sales.id=return_sales.sale_id', 'left')
+                    ->from('return_sales')
+                    ->group_by('return_sales.id')
+                    ->where('return_sales.warehouse_id', $warehouse_id);
         } else {
             $this->datatables
-                ->select($this->db->dbprefix('return_sales') . ".date as date, " . $this->db->dbprefix('return_sales') . ".reference_no as ref, " . $this->db->dbprefix('sales') . ".reference_no as sal_ref, " . $this->db->dbprefix('return_sales') . ".biller, " . $this->db->dbprefix('return_sales') . ".customer, " . $this->db->dbprefix('return_sales') . ".surcharge, " . $this->db->dbprefix('return_sales') . ".grand_total, " . $this->db->dbprefix('return_sales') . ".id as id")
-                ->join('sales', 'sales.id=return_sales.sale_id', 'left')
-                ->from('return_sales')
-                ->group_by('return_sales.id');
+                    ->select($this->db->dbprefix('return_sales') . ".date as date, " . $this->db->dbprefix('return_sales') . ".reference_no as ref, " . $this->db->dbprefix('sales') . ".reference_no as sal_ref, " . $this->db->dbprefix('return_sales') . ".biller, " . $this->db->dbprefix('return_sales') . ".customer, " . $this->db->dbprefix('return_sales') . ".surcharge, " . $this->db->dbprefix('return_sales') . ".grand_total, " . $this->db->dbprefix('return_sales') . ".id as id")
+                    ->join('sales', 'sales.id=return_sales.sale_id', 'left')
+                    ->from('return_sales')
+                    ->group_by('return_sales.id');
         }
         if (!$this->Customer && !$this->Supplier && !$this->Owner && !$this->Admin) {
             $this->datatables->where('return_sales.created_by', $this->session->userdata('user_id'));
@@ -166,8 +162,7 @@ class Sales extends MY_Controller
         echo $this->datatables->generate();
     }
 
-    function modal_view($id = NULL)
-    {
+    function modal_view($id = NULL) {
         $this->sma->checkPermissions('index', TRUE);
 
         if ($this->input->get('id')) {
@@ -186,11 +181,10 @@ class Sales extends MY_Controller
         $this->data['return_sale'] = $return;
         $this->data['rows'] = $this->sales_model->getAllInvoiceItems($id);
 
-        $this->load->view($this->theme.'sales/modal_view', $this->data);
+        $this->load->view($this->theme . 'sales/modal_view', $this->data);
     }
 
-    function view($id = NULL)
-    {
+    function view($id = NULL) {
         $this->sma->checkPermissions('index');
 
         if ($this->input->get('id')) {
@@ -219,8 +213,7 @@ class Sales extends MY_Controller
         $this->page_construct('sales/view', $meta, $this->data);
     }
 
-    function view_return($id = NULL)
-    {
+    function view_return($id = NULL) {
         $this->sma->checkPermissions('return_sales');
 
         if ($this->input->get('id')) {
@@ -243,8 +236,7 @@ class Sales extends MY_Controller
         $this->page_construct('sales/view_return', $meta, $this->data);
     }
 
-    function pdf($id = NULL, $view = NULL, $save_bufffer = NULL)
-    {
+    function pdf($id = NULL, $view = NULL, $save_bufffer = NULL) {
         $this->sma->checkPermissions();
 
         if ($this->input->get('id')) {
@@ -278,8 +270,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function email($id = NULL)
-    {
+    function email($id = NULL) {
         $this->sma->checkPermissions(false, true);
 
         if ($this->input->get('id')) {
@@ -330,7 +321,6 @@ class Sales extends MY_Controller
                     $paypal_fee = $paypal->fixed_charges + ($inv->grand_total * $paypal->extra_charges_other / 100);
                 }
                 $btn_code .= '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=' . $paypal->account_email . '&item_name=' . $inv->reference_no . '&item_number=' . $inv->id . '&image_url=' . base_url() . 'assets/uploads/logos/' . $this->Settings->logo . '&amount=' . (($inv->grand_total - $inv->paid) + $paypal_fee) . '&no_shipping=1&no_note=1&currency_code=' . $this->default_currency->code . '&bn=FC-BuyNow&rm=2&return=' . site_url('sales/view/' . $inv->id) . '&cancel_return=' . site_url('sales/view/' . $inv->id) . '&notify_url=' . site_url('payments/paypalipn') . '&custom=' . $inv->reference_no . '__' . ($inv->grand_total - $inv->paid) . '__' . $paypal_fee . '"><img src="' . base_url('assets/images/btn-paypal.png') . '" alt="Pay by PayPal"></a> ';
-
             }
             if ($skrill->active == "1" && $inv->grand_total != "0.00") {
                 if (trim(strtolower($customer->country)) == $biller->country) {
@@ -367,7 +357,7 @@ class Sales extends MY_Controller
             $this->data['subject'] = array('name' => 'subject',
                 'id' => 'subject',
                 'type' => 'text',
-                'value' => $this->form_validation->set_value('subject', lang('invoice').' (' . $inv->reference_no . ') '.lang('from').' ' . $this->Settings->site_name),
+                'value' => $this->form_validation->set_value('subject', lang('invoice') . ' (' . $inv->reference_no . ') ' . lang('from') . ' ' . $this->Settings->site_name),
             );
             $this->data['note'] = array('name' => 'note',
                 'id' => 'note',
@@ -384,9 +374,7 @@ class Sales extends MY_Controller
 
     /* ------------------------------------------------------------------ */
 
-
-    function add($quote_id = NULL)
-    {
+    function add($quote_id = NULL) {
         $this->sma->checkPermissions();
 
         $this->form_validation->set_message('is_natural_no_zero', lang("no_zero_required"));
@@ -457,7 +445,7 @@ class Sales extends MY_Controller
                         $dpos = strpos($discount, $percentage);
                         if ($dpos !== false) {
                             $pds = explode("%", $discount);
-                            $pr_discount = (($this->sma->formatDecimal($unit_price)) * (Float)($pds[0])) / 100;
+                            $pr_discount = (($this->sma->formatDecimal($unit_price)) * (Float) ($pds[0])) / 100;
                         } else {
                             $pr_discount = $this->sma->formatDecimal($discount);
                         }
@@ -467,7 +455,10 @@ class Sales extends MY_Controller
                     $item_net_price = $unit_price;
                     $pr_item_discount = $this->sma->formatDecimal($pr_discount * $item_quantity);
                     $product_discount += $pr_item_discount;
-                    $pr_tax = 0; $pr_item_tax = 0; $item_tax = 0; $tax = "";
+                    $pr_tax = 0;
+                    $pr_item_tax = 0;
+                    $item_tax = 0;
+                    $tax = "";
 
                     if (isset($item_tax_rate) && $item_tax_rate != 0) {
                         $pr_tax = $item_tax_rate;
@@ -482,7 +473,6 @@ class Sales extends MY_Controller
                                 $tax = $tax_details->rate . "%";
                                 $item_net_price = $unit_price - $item_tax;
                             }
-
                         } elseif ($tax_details->type == 2) {
 
                             if ($product_details && $product_details->tax_method == 1) {
@@ -496,10 +486,8 @@ class Sales extends MY_Controller
 
                             $item_tax = $this->sma->formatDecimal($tax_details->rate);
                             $tax = $tax_details->rate;
-
                         }
                         $pr_item_tax = $this->sma->formatDecimal($item_tax * $item_quantity);
-
                     }
 
                     $product_tax += $pr_item_tax;
@@ -539,7 +527,7 @@ class Sales extends MY_Controller
                 $opos = strpos($order_discount_id, $percentage);
                 if ($opos !== false) {
                     $ods = explode("%", $order_discount_id);
-                    $order_discount = $this->sma->formatDecimal((($total + $product_tax) * (Float)($ods[0])) / 100);
+                    $order_discount = $this->sma->formatDecimal((($total + $product_tax) * (Float) ($ods[0])) / 100);
                 } else {
                     $order_discount = $this->sma->formatDecimal($order_discount_id);
                 }
@@ -679,7 +667,7 @@ class Sales extends MY_Controller
                     }
                     $row->quantity = 0;
                     $pis = $this->sales_model->getPurchasedItems($item->product_id, $item->warehouse_id, $item->option_id);
-                    if($pis){
+                    if ($pis) {
                         foreach ($pis as $pi) {
                             $row->quantity += $pi->quantity_balance;
                         }
@@ -690,8 +678,8 @@ class Sales extends MY_Controller
                     $row->type = $item->product_type;
                     $row->qty = $item->quantity;
                     $row->discount = $item->discount ? $item->discount : '0';
-                    $row->price = $this->sma->formatDecimal($item->net_unit_price+$this->sma->formatDecimal($item->item_discount/$item->quantity));
-                    $row->unit_price = $row->tax_method ? $item->unit_price+$this->sma->formatDecimal($item->item_discount/$item->quantity)+$this->sma->formatDecimal($item->item_tax/$item->quantity) : $item->unit_price+($item->item_discount/$item->quantity);
+                    $row->price = $this->sma->formatDecimal($item->net_unit_price + $this->sma->formatDecimal($item->item_discount / $item->quantity));
+                    $row->unit_price = $row->tax_method ? $item->unit_price + $this->sma->formatDecimal($item->item_discount / $item->quantity) + $this->sma->formatDecimal($item->item_tax / $item->quantity) : $item->unit_price + ($item->item_discount / $item->quantity);
                     $row->real_unit_price = $item->real_unit_price;
                     $row->tax_rate = $item->tax_rate_id;
                     $row->serial = '';
@@ -701,12 +689,12 @@ class Sales extends MY_Controller
                         $option_quantity = 0;
                         foreach ($options as $option) {
                             $pis = $this->sales_model->getPurchasedItems($row->id, $item->warehouse_id, $item->option_id);
-                            if($pis){
+                            if ($pis) {
                                 foreach ($pis as $pi) {
                                     $option_quantity += $pi->quantity_balance;
                                 }
                             }
-                            if($option->quantity > $option_quantity) {
+                            if ($option->quantity > $option_quantity) {
                                 $option->quantity = $option_quantity;
                             }
                         }
@@ -743,8 +731,7 @@ class Sales extends MY_Controller
 
     /* -------------------------------------------------------------------------------------------------------------------------------- */
 
-    function edit($id = NULL)
-    {
+    function edit($id = NULL) {
         $this->sma->checkPermissions();
 
         if ($this->input->get('id')) {
@@ -818,7 +805,7 @@ class Sales extends MY_Controller
                         $dpos = strpos($discount, $percentage);
                         if ($dpos !== false) {
                             $pds = explode("%", $discount);
-                            $pr_discount = (($this->sma->formatDecimal($unit_price)) * (Float)($pds[0])) / 100;
+                            $pr_discount = (($this->sma->formatDecimal($unit_price)) * (Float) ($pds[0])) / 100;
                         } else {
                             $pr_discount = $this->sma->formatDecimal($discount);
                         }
@@ -828,7 +815,10 @@ class Sales extends MY_Controller
                     $item_net_price = $unit_price;
                     $pr_item_discount = $this->sma->formatDecimal($pr_discount * $item_quantity);
                     $product_discount += $pr_item_discount;
-                    $pr_tax = 0; $pr_item_tax = 0; $item_tax = 0; $tax = "";
+                    $pr_tax = 0;
+                    $pr_item_tax = 0;
+                    $item_tax = 0;
+                    $tax = "";
 
                     if (isset($item_tax_rate) && $item_tax_rate != 0) {
                         $pr_tax = $item_tax_rate;
@@ -843,7 +833,6 @@ class Sales extends MY_Controller
                                 $tax = $tax_details->rate . "%";
                                 $item_net_price = $unit_price - $item_tax;
                             }
-
                         } elseif ($tax_details->type == 2) {
 
                             if ($product_details && $product_details->tax_method == 1) {
@@ -857,10 +846,8 @@ class Sales extends MY_Controller
 
                             $item_tax = $this->sma->formatDecimal($tax_details->rate);
                             $tax = $tax_details->rate;
-
                         }
                         $pr_item_tax = $this->sma->formatDecimal($item_tax * $item_quantity);
-
                     }
 
                     $product_tax += $pr_item_tax;
@@ -899,7 +886,7 @@ class Sales extends MY_Controller
                 $opos = strpos($order_discount_id, $percentage);
                 if ($opos !== false) {
                     $ods = explode("%", $order_discount_id);
-                    $order_discount = $this->sma->formatDecimal((($total + $product_tax) * (Float)($ods[0])) / 100);
+                    $order_discount = $this->sma->formatDecimal((($total + $product_tax) * (Float) ($ods[0])) / 100);
                 } else {
                     $order_discount = $this->sma->formatDecimal($order_discount_id);
                 }
@@ -998,7 +985,7 @@ class Sales extends MY_Controller
                     unset($row->details, $row->product_details, $row->cost, $row->supplier1price, $row->supplier2price, $row->supplier3price, $row->supplier4price, $row->supplier5price);
                 }
                 $pis = $this->sales_model->getPurchasedItems($item->product_id, $item->warehouse_id, $item->option_id);
-                if($pis){
+                if ($pis) {
                     foreach ($pis as $pi) {
                         $row->quantity += $pi->quantity_balance;
                     }
@@ -1010,8 +997,8 @@ class Sales extends MY_Controller
                 $row->qty = $item->quantity;
                 $row->quantity += $item->quantity;
                 $row->discount = $item->discount ? $item->discount : '0';
-                $row->price = $this->sma->formatDecimal($item->net_unit_price+$this->sma->formatDecimal($item->item_discount/$item->quantity));
-                $row->unit_price = $row->tax_method ? $item->unit_price+$this->sma->formatDecimal($item->item_discount/$item->quantity)+$this->sma->formatDecimal($item->item_tax/$item->quantity) : $item->unit_price+($item->item_discount/$item->quantity);
+                $row->price = $this->sma->formatDecimal($item->net_unit_price + $this->sma->formatDecimal($item->item_discount / $item->quantity));
+                $row->unit_price = $row->tax_method ? $item->unit_price + $this->sma->formatDecimal($item->item_discount / $item->quantity) + $this->sma->formatDecimal($item->item_tax / $item->quantity) : $item->unit_price + ($item->item_discount / $item->quantity);
                 $row->real_unit_price = $item->real_unit_price;
                 $row->tax_rate = $item->tax_rate_id;
                 $row->serial = $item->serial_no;
@@ -1022,13 +1009,13 @@ class Sales extends MY_Controller
                     $option_quantity = 0;
                     foreach ($options as $option) {
                         $pis = $this->sales_model->getPurchasedItems($row->id, $item->warehouse_id, $item->option_id);
-                        if($pis){
+                        if ($pis) {
                             foreach ($pis as $pi) {
                                 $option_quantity += $pi->quantity_balance;
                             }
                         }
                         $option_quantity += $item->quantity;
-                        if($option->quantity > $option_quantity) {
+                        if ($option->quantity > $option_quantity) {
                             $option->quantity = $option_quantity;
                         }
                     }
@@ -1039,7 +1026,7 @@ class Sales extends MY_Controller
                     $combo_items = $this->sales_model->getProductComboItems($row->id, $item->warehouse_id);
                     $te = $combo_items;
                     foreach ($combo_items as $combo_item) {
-                        $combo_item->quantity =  $combo_item->qty*$item->quantity;
+                        $combo_item->quantity = $combo_item->qty * $item->quantity;
                     }
                 }
                 $ri = $this->Settings->item_addition ? $row->id : $c;
@@ -1067,8 +1054,7 @@ class Sales extends MY_Controller
 
     /* ------------------------------- */
 
-    function return_sale($id = NULL)
-    {
+    function return_sale($id = NULL) {
         $this->sma->checkPermissions('return_sales');
 
         if ($this->input->get('id')) {
@@ -1124,7 +1110,7 @@ class Sales extends MY_Controller
                         $dpos = strpos($discount, $percentage);
                         if ($dpos !== false) {
                             $pds = explode("%", $discount);
-                            $pr_discount = (($this->sma->formatDecimal($unit_price)) * (Float)($pds[0])) / 100;
+                            $pr_discount = (($this->sma->formatDecimal($unit_price)) * (Float) ($pds[0])) / 100;
                         } else {
                             $pr_discount = $this->sma->formatDecimal($discount);
                         }
@@ -1147,22 +1133,19 @@ class Sales extends MY_Controller
                                 $item_tax = $this->sma->formatDecimal((($unit_price) * $tax_details->rate) / 100);
                                 $tax = $tax_details->rate . "%";
                             }
-
                         } elseif ($tax_details->type == 2) {
 
                             $item_tax = $this->sma->formatDecimal($tax_details->rate);
                             $tax = $tax_details->rate;
-
                         }
                         $pr_item_tax = $this->sma->formatDecimal($item_tax * $item_quantity);
-
                     } else {
                         $pr_tax = 0;
                         $pr_item_tax = 0;
                         $tax = "";
                     }
 
-                    $item_net_price = $product_details->tax_method ? $this->sma->formatDecimal($unit_price-$pr_discount) : $this->sma->formatDecimal($unit_price-$item_tax-$pr_discount);
+                    $item_net_price = $product_details->tax_method ? $this->sma->formatDecimal($unit_price - $pr_discount) : $this->sma->formatDecimal($unit_price - $item_tax - $pr_discount);
                     $product_tax += $pr_item_tax;
                     $subtotal = (($item_net_price * $item_quantity) + $pr_item_tax);
 
@@ -1201,7 +1184,7 @@ class Sales extends MY_Controller
                 $opos = strpos($order_discount_id, $percentage);
                 if ($opos !== false) {
                     $ods = explode("%", $order_discount_id);
-                    $order_discount = $this->sma->formatDecimal((($total + $product_tax) * (Float)($ods[0])) / 100);
+                    $order_discount = $this->sma->formatDecimal((($total + $product_tax) * (Float) ($ods[0])) / 100);
                 } else {
                     $order_discount = $this->sma->formatDecimal($order_discount_id);
                 }
@@ -1311,7 +1294,7 @@ class Sales extends MY_Controller
                     unset($row->details, $row->product_details, $row->cost, $row->supplier1price, $row->supplier2price, $row->supplier3price, $row->supplier4price, $row->supplier5price);
                 }
                 $pis = $this->sales_model->getPurchasedItems($item->product_id, $item->warehouse_id, $item->option_id);
-                if($pis){
+                if ($pis) {
                     foreach ($pis as $pi) {
                         $row->quantity += $pi->quantity_balance;
                     }
@@ -1324,8 +1307,8 @@ class Sales extends MY_Controller
                 $row->qty = $item->quantity;
                 $row->oqty = $item->quantity;
                 $row->discount = $item->discount ? $item->discount : '0';
-                $row->price = $this->sma->formatDecimal($item->net_unit_price+$this->sma->formatDecimal($item->item_discount/$item->quantity));
-                $row->unit_price = $row->tax_method ? $item->unit_price+$this->sma->formatDecimal($item->item_discount/$item->quantity)+$this->sma->formatDecimal($item->item_tax/$item->quantity) : $item->unit_price+($item->item_discount/$item->quantity);
+                $row->price = $this->sma->formatDecimal($item->net_unit_price + $this->sma->formatDecimal($item->item_discount / $item->quantity));
+                $row->unit_price = $row->tax_method ? $item->unit_price + $this->sma->formatDecimal($item->item_discount / $item->quantity) + $this->sma->formatDecimal($item->item_tax / $item->quantity) : $item->unit_price + ($item->item_discount / $item->quantity);
                 $row->real_unit_price = $item->real_unit_price;
                 $row->tax_rate = $item->tax_rate_id;
                 $row->serial = $item->serial_no;
@@ -1351,11 +1334,9 @@ class Sales extends MY_Controller
         }
     }
 
-
     /* ------------------------------- */
 
-    function delete($id = NULL)
-    {
+    function delete($id = NULL) {
         $this->sma->checkPermissions(NULL, TRUE);
 
         if ($this->input->get('id')) {
@@ -1363,16 +1344,16 @@ class Sales extends MY_Controller
         }
 
         if ($this->sales_model->deleteSale($id)) {
-            if($this->input->is_ajax_request()) {
-                echo lang("sale_deleted"); die();
+            if ($this->input->is_ajax_request()) {
+                echo lang("sale_deleted");
+                die();
             }
             $this->session->set_flashdata('message', lang('sale_deleted'));
             redirect('welcome');
         }
     }
 
-    function delete_return($id = NULL)
-    {
+    function delete_return($id = NULL) {
         $this->sma->checkPermissions(NULL, TRUE);
 
         if ($this->input->get('id')) {
@@ -1380,16 +1361,16 @@ class Sales extends MY_Controller
         }
 
         if ($this->sales_model->deleteReturn($id)) {
-            if($this->input->is_ajax_request()) {
-                echo lang("return_sale_deleted"); die();
+            if ($this->input->is_ajax_request()) {
+                echo lang("return_sale_deleted");
+                die();
             }
             $this->session->set_flashdata('message', lang('return_sale_deleted'));
             redirect('welcome');
         }
     }
 
-    function sale_actions()
-    {
+    function sale_actions() {
         if (!$this->Owner) {
             $this->session->set_flashdata('warning', lang('access_denied'));
             redirect($_SERVER["HTTP_REFERER"]);
@@ -1448,7 +1429,7 @@ class Sales extends MY_Controller
                         $rendererLibraryPath = APPPATH . 'third_party' . DIRECTORY_SEPARATOR . $rendererLibrary;
                         if (!PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
                             die('Please set the $rendererName: ' . $rendererName . ' and $rendererLibraryPath: ' . $rendererLibraryPath . ' values' .
-                                PHP_EOL . ' as appropriate for your directory structure');
+                                    PHP_EOL . ' as appropriate for your directory structure');
                         }
 
                         header('Content-Type: application/pdf');
@@ -1481,19 +1462,16 @@ class Sales extends MY_Controller
 
     /* ------------------------------- */
 
-    function deliveries()
-    {
+    function deliveries() {
         $this->sma->checkPermissions();
 
         $data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
         $bc = array(array('link' => base_url(), 'page' => lang('home')), array('link' => site_url('sales'), 'page' => lang('sales')), array('link' => '#', 'page' => lang('deliveries')));
         $meta = array('page_title' => lang('deliveries'), 'bc' => $bc);
         $this->page_construct('sales/deliveries', $meta, $this->data);
-
     }
 
-    function getDeliveries()
-    {
+    function getDeliveries() {
         $this->sma->checkPermissions('deliveries');
 
         $detail_link = anchor('sales/view_delivery/$1', '<i class="fa fa-file-text-o"></i> ' . lang('delivery_details'), 'data-toggle="modal" data-target="#myModal"');
@@ -1501,12 +1479,12 @@ class Sales extends MY_Controller
         $edit_link = anchor('sales/edit_delivery/$1', '<i class="fa fa-edit"></i> ' . lang('edit_delivery'), 'data-toggle="modal" data-target="#myModal"');
         $pdf_link = anchor('sales/pdf_delivery/$1', '<i class="fa fa-file-pdf-o"></i> ' . lang('download_pdf'));
         $delete_link = "<a href='#' class='po' title='<b>" . lang("delete_delivery") . "</b>' data-content=\"<p>"
-            . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . site_url('sales/delete_delivery/$1') . "'>"
-            . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i> "
-            . lang('delete_delivery') . "</a>";
+                . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . site_url('sales/delete_delivery/$1') . "'>"
+                . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i> "
+                . lang('delete_delivery') . "</a>";
         $action = '<div class="text-center"><div class="btn-group text-left">'
-            . '<button type="button" class="btn btn-default btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">'
-            . lang('actions') . ' <span class="caret"></span></button>
+                . '<button type="button" class="btn btn-default btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">'
+                . lang('actions') . ' <span class="caret"></span></button>
     <ul class="dropdown-menu pull-right" role="menu">
         <li>' . $detail_link . '</li>
         <li>' . $edit_link . '</li>
@@ -1518,17 +1496,16 @@ class Sales extends MY_Controller
         $this->load->library('datatables');
         //GROUP_CONCAT(CONCAT('Name: ', sale_items.product_name, ' Qty: ', sale_items.quantity ) SEPARATOR '<br>')
         $this->datatables
-            ->select("deliveries.id as id, date, do_reference_no, sale_reference_no, customer, address")
-            ->from('deliveries')
-            ->join('sale_items', 'sale_items.sale_id=deliveries.sale_id', 'left')
-            ->group_by('deliveries.id');
+                ->select("deliveries.id as id, date, do_reference_no, sale_reference_no, customer, address")
+                ->from('deliveries')
+                ->join('sale_items', 'sale_items.sale_id=deliveries.sale_id', 'left')
+                ->group_by('deliveries.id');
         $this->datatables->add_column("Actions", $action, "id");
 
         echo $this->datatables->generate();
     }
 
-    function pdf_delivery($id = NULL, $view = NULL, $save_bufffer = NULL)
-    {
+    function pdf_delivery($id = NULL, $view = NULL, $save_bufffer = NULL) {
         $this->sma->checkPermissions();
 
         if ($this->input->get('id')) {
@@ -1555,8 +1532,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function view_delivery($id = NULL)
-    {
+    function view_delivery($id = NULL) {
         $this->sma->checkPermissions('deliveries');
 
         if ($this->input->get('id')) {
@@ -1576,8 +1552,7 @@ class Sales extends MY_Controller
         $this->load->view($this->theme . 'sales/view_delivery', $this->data);
     }
 
-    function add_delivery($id = NULL)
-    {
+    function add_delivery($id = NULL) {
         $this->sma->checkPermissions();
 
         if ($this->input->get('id')) {
@@ -1628,8 +1603,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function edit_delivery($id = NULL)
-    {
+    function edit_delivery($id = NULL) {
         $this->sma->checkPermissions();
 
         if ($this->input->get('id')) {
@@ -1679,8 +1653,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function delete_delivery($id = NULL)
-    {
+    function delete_delivery($id = NULL) {
         $this->sma->checkPermissions(NULL, TRUE);
 
         if ($this->input->get('id')) {
@@ -1690,11 +1663,9 @@ class Sales extends MY_Controller
         if ($this->sales_model->deleteDelivery($id)) {
             echo lang("delivery_deleted");
         }
-
     }
 
-    function delivery_actions()
-    {
+    function delivery_actions() {
         if (!$this->Owner) {
             $this->session->set_flashdata('warning', lang('access_denied'));
             redirect($_SERVER["HTTP_REFERER"]);
@@ -1749,7 +1720,7 @@ class Sales extends MY_Controller
                         $rendererLibraryPath = APPPATH . 'third_party' . DIRECTORY_SEPARATOR . $rendererLibrary;
                         if (!PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
                             die('Please set the $rendererName: ' . $rendererName . ' and $rendererLibraryPath: ' . $rendererLibraryPath . ' values' .
-                                PHP_EOL . ' as appropriate for your directory structure');
+                                    PHP_EOL . ' as appropriate for your directory structure');
                         }
 
                         header('Content-Type: application/pdf');
@@ -1782,15 +1753,13 @@ class Sales extends MY_Controller
 
     /* -------------------------------------------------------------------------------- */
 
-    function payments($id = NULL)
-    {
+    function payments($id = NULL) {
         $this->sma->checkPermissions(false, true);
         $this->data['payments'] = $this->sales_model->getInvoicePayments($id);
         $this->load->view($this->theme . 'sales/payments', $this->data);
     }
 
-    function payment_note($id = NULL)
-    {
+    function payment_note($id = NULL) {
         $payment = $this->sales_model->getPaymentByID($id);
         $inv = $this->sales_model->getInvoiceByID($payment->sale_id);
         $this->data['biller'] = $this->site->getCompanyByID($inv->biller_id);
@@ -1802,8 +1771,7 @@ class Sales extends MY_Controller
         $this->load->view($this->theme . 'sales/payment_note', $this->data);
     }
 
-    function add_payment($id = NULL)
-    {
+    function add_payment($id = NULL) {
         $this->sma->checkPermissions('payments', true);
         $this->load->helper('security');
         if ($this->input->get('id')) {
@@ -1855,7 +1823,6 @@ class Sales extends MY_Controller
             }
 
             //$this->sma->print_arrays($payment);
-
         } elseif ($this->input->post('add_payment')) {
             $this->session->set_flashdata('error', validation_errors());
             redirect($_SERVER["HTTP_REFERER"]);
@@ -1878,8 +1845,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function edit_payment($id = NULL)
-    {
+    function edit_payment($id = NULL) {
         $this->sma->checkPermissions('edit', true);
         $this->load->helper('security');
         if ($this->input->get('id')) {
@@ -1931,7 +1897,6 @@ class Sales extends MY_Controller
             }
 
             //$this->sma->print_arrays($payment);
-
         } elseif ($this->input->post('edit_payment')) {
             $this->session->set_flashdata('error', validation_errors());
             redirect($_SERVER["HTTP_REFERER"]);
@@ -1952,8 +1917,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function delete_payment($id = NULL)
-    {
+    function delete_payment($id = NULL) {
         $this->sma->checkPermissions('delete');
 
         if ($this->input->get('id')) {
@@ -1969,8 +1933,7 @@ class Sales extends MY_Controller
 
     /* --------------------------------------------------------------------------------------------- */
 
-    function suggestions()
-    {
+    function suggestions() {
         $term = $this->input->get('term', TRUE);
         $warehouse_id = $this->input->get('warehouse_id', TRUE);
         $customer_id = $this->input->get('customer_id', TRUE);
@@ -2011,7 +1974,7 @@ class Sales extends MY_Controller
                 }
                 $row->option = $option;
                 $pis = $this->sales_model->getPurchasedItems($row->id, $warehouse_id, $row->option);
-                if($pis){
+                if ($pis) {
                     foreach ($pis as $pi) {
                         $row->quantity += $pi->quantity_balance;
                     }
@@ -2020,12 +1983,12 @@ class Sales extends MY_Controller
                     $option_quantity = 0;
                     foreach ($options as $option) {
                         $pis = $this->sales_model->getPurchasedItems($row->id, $warehouse_id, $row->option);
-                        if($pis){
+                        if ($pis) {
                             foreach ($pis as $pi) {
                                 $option_quantity += $pi->quantity_balance;
                             }
                         }
-                        if($option->quantity > $option_quantity) {
+                        if ($option->quantity > $option_quantity) {
                             $option->quantity = $option_quantity;
                         }
                     }
@@ -2055,8 +2018,7 @@ class Sales extends MY_Controller
 
     /* ------------------------------------ Gift Cards ---------------------------------- */
 
-    function gift_cards()
-    {
+    function gift_cards() {
         $this->sma->checkPermissions();
         $this->data['error'] = validation_errors() ? validation_errors() : $this->session->flashdata('error');
         $bc = array(array('link' => base_url(), 'page' => lang('home')), array('link' => site_url('sales'), 'page' => lang('sales')), array('link' => '#', 'page' => lang('gift_cards')));
@@ -2064,31 +2026,28 @@ class Sales extends MY_Controller
         $this->page_construct('sales/gift_cards', $meta, $this->data);
     }
 
-    function getGiftCards()
-    {
+    function getGiftCards() {
 
         $this->load->library('datatables');
         $this->datatables
-            ->select($this->db->dbprefix('gift_cards') . ".id as id, card_no, value, balance, CONCAT(" . $this->db->dbprefix('users') . ".first_name, ' ', " . $this->db->dbprefix('users') . ".last_name) as created_by, customer, expiry", FALSE)
-            ->join('users', 'users.id=gift_cards.created_by', 'left')
-            ->from("gift_cards")
-            ->add_column("Actions", "<center><a href='" . site_url('sales/view_gift_card/$1') . "' class='tip' title='" . lang("view_gift_card") . "' data-toggle='modal' data-target='#myModal'><i class=\"fa fa-eye\"></i></a> <a href='" . site_url('sales/edit_gift_card/$1') . "' class='tip' title='" . lang("edit_gift_card") . "' data-toggle='modal' data-target='#myModal'><i class=\"fa fa-edit\"></i></a> <a href='#' class='tip po' title='<b>" . lang("delete_gift_card") . "</b>' data-content=\"<p>" . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . site_url('sales/delete_gift_card/$1') . "'>" . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></center>", "id");
+                ->select($this->db->dbprefix('gift_cards') . ".id as id, card_no, value, balance, CONCAT(" . $this->db->dbprefix('users') . ".first_name, ' ', " . $this->db->dbprefix('users') . ".last_name) as created_by, customer, expiry", FALSE)
+                ->join('users', 'users.id=gift_cards.created_by', 'left')
+                ->from("gift_cards")
+                ->add_column("Actions", "<center><a href='" . site_url('sales/view_gift_card/$1') . "' class='tip' title='" . lang("view_gift_card") . "' data-toggle='modal' data-target='#myModal'><i class=\"fa fa-eye\"></i></a> <a href='" . site_url('sales/edit_gift_card/$1') . "' class='tip' title='" . lang("edit_gift_card") . "' data-toggle='modal' data-target='#myModal'><i class=\"fa fa-edit\"></i></a> <a href='#' class='tip po' title='<b>" . lang("delete_gift_card") . "</b>' data-content=\"<p>" . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . site_url('sales/delete_gift_card/$1') . "'>" . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></center>", "id");
         //->unset_column('id');
 
         echo $this->datatables->generate();
     }
 
-    function view_gift_card($id = NULL)
-    {
-        $this->data['page_title'] =lang('gift_card');
+    function view_gift_card($id = NULL) {
+        $this->data['page_title'] = lang('gift_card');
         $gift_card = $this->site->getGiftCardByID($id);
         $this->data['gift_card'] = $this->site->getGiftCardByID($id);
         $this->data['customer'] = $this->site->getCompanyByID($gift_card->customer_id);
         $this->load->view($this->theme . 'sales/view_gift_card', $this->data);
     }
 
-    function validate_gift_card($no)
-    {
+    function validate_gift_card($no) {
         //$this->sma->checkPermissions();
         if ($gc = $this->site->getGiftCardByNO($no)) {
             if ($gc->expiry) {
@@ -2105,8 +2064,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function add_gift_card()
-    {
+    function add_gift_card() {
         $this->sma->checkPermissions(false, true);
 
         $this->form_validation->set_rules('card_no', lang("card_no"), 'trim|is_unique[gift_cards.card_no]|required');
@@ -2158,8 +2116,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function edit_gift_card($id = NULL)
-    {
+    function edit_gift_card($id = NULL) {
         $this->sma->checkPermissions(false, true);
 
         $this->form_validation->set_rules('card_no', lang("card_no"), 'trim|required');
@@ -2198,8 +2155,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function sell_gift_card()
-    {
+    function sell_gift_card() {
         $this->sma->checkPermissions('gift_cards', true);
         $error = NULL;
         $gcData = $this->input->get('gcdata');
@@ -2229,11 +2185,9 @@ class Sales extends MY_Controller
         } else {
             echo json_encode(array('result' => 'failed', 'message' => $error));
         }
-
     }
 
-    function delete_gift_card($id = NULL)
-    {
+    function delete_gift_card($id = NULL) {
         $this->sma->checkPermissions();
 
         if ($this->sales_model->deleteGiftCard($id)) {
@@ -2241,8 +2195,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function gift_card_actions()
-    {
+    function gift_card_actions() {
         if (!$this->Owner) {
             $this->session->set_flashdata('warning', lang('access_denied'));
             redirect($_SERVER["HTTP_REFERER"]);
@@ -2292,7 +2245,7 @@ class Sales extends MY_Controller
                         $rendererLibraryPath = APPPATH . 'third_party' . DIRECTORY_SEPARATOR . $rendererLibrary;
                         if (!PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
                             die('Please set the $rendererName: ' . $rendererName . ' and $rendererLibraryPath: ' . $rendererLibraryPath . ' values' .
-                                PHP_EOL . ' as appropriate for your directory structure');
+                                    PHP_EOL . ' as appropriate for your directory structure');
                         }
 
                         header('Content-Type: application/pdf');
@@ -2323,8 +2276,7 @@ class Sales extends MY_Controller
         }
     }
 
-    function get_award_points($id = NULL)
-    {
+    function get_award_points($id = NULL) {
         $this->sma->checkPermissions('index');
 
         $row = $this->site->getUser($id);
@@ -2333,8 +2285,7 @@ class Sales extends MY_Controller
 
     /* -------------------------------------------------------------------------------------- */
 
-    function sale_by_csv()
-    {
+    function sale_by_csv() {
         $this->sma->checkPermissions('csv');
         $this->load->helper('security');
         $this->form_validation->set_rules('userfile', $this->lang->line("upload_file"), 'xss_clean');
@@ -2430,110 +2381,103 @@ class Sales extends MY_Controller
                                 $item_option->id = NULL;
                             }
 
-                                $item_id = $product_details->id;
-                                $item_type = $product_details->type;
-                                $item_code = $product_details->code;
-                                $item_name = $product_details->name;
-                                $item_net_price = $this->sma->formatDecimal($csv_pr['net_unit_price']);
-                                $item_quantity = $csv_pr['quantity'];
-                                $item_tax_rate = $csv_pr['item_tax_rate'];
-                                $item_discount = $csv_pr['discount'];
-                                $item_serial = $csv_pr['serial'];
+                            $item_id = $product_details->id;
+                            $item_type = $product_details->type;
+                            $item_code = $product_details->code;
+                            $item_name = $product_details->name;
+                            $item_net_price = $this->sma->formatDecimal($csv_pr['net_unit_price']);
+                            $item_quantity = $csv_pr['quantity'];
+                            $item_tax_rate = $csv_pr['item_tax_rate'];
+                            $item_discount = $csv_pr['discount'];
+                            $item_serial = $csv_pr['serial'];
 
-                                if (isset($item_code) && isset($item_net_price) && isset($item_quantity)) {
-                                    $product_details = $this->sales_model->getProductByCode($item_code);
+                            if (isset($item_code) && isset($item_net_price) && isset($item_quantity)) {
+                                $product_details = $this->sales_model->getProductByCode($item_code);
 
-                                    if (isset($item_discount)) {
-                                        $discount = $item_discount;
-                                        $dpos = strpos($discount, $percentage);
-                                        if ($dpos !== false) {
-                                            $pds = explode("%", $discount);
-                                            $pr_discount = (($this->sma->formatDecimal($item_net_price)) * (Float)($pds[0])) / 100;
-                                        } else {
-                                            $pr_discount = $this->sma->formatDecimal($discount);
-                                        }
+                                if (isset($item_discount)) {
+                                    $discount = $item_discount;
+                                    $dpos = strpos($discount, $percentage);
+                                    if ($dpos !== false) {
+                                        $pds = explode("%", $discount);
+                                        $pr_discount = (($this->sma->formatDecimal($item_net_price)) * (Float) ($pds[0])) / 100;
                                     } else {
-                                        $pr_discount = 0;
+                                        $pr_discount = $this->sma->formatDecimal($discount);
                                     }
-                                    $item_net_price = $this->sma->formatDecimal($item_net_price - $pr_discount);
-                                    $pr_item_discount = $this->sma->formatDecimal($pr_discount * $item_quantity);
-                                    $product_discount += $pr_item_discount;
+                                } else {
+                                    $pr_discount = 0;
+                                }
+                                $item_net_price = $this->sma->formatDecimal($item_net_price - $pr_discount);
+                                $pr_item_discount = $this->sma->formatDecimal($pr_discount * $item_quantity);
+                                $product_discount += $pr_item_discount;
 
-                                    if (isset($item_tax_rate) && $item_tax_rate != 0) {
+                                if (isset($item_tax_rate) && $item_tax_rate != 0) {
 
-                                        if($tax_details = $this->sales_model->getTaxRateByName($item_tax_rate)) {
-                                            $pr_tax = $tax_details->id;
-                                            if ($tax_details->type == 1) {
-
-                                                $item_tax = $this->sma->formatDecimal((($item_net_price) * $tax_details->rate) / 100);
-                                                $tax = $tax_details->rate . "%";
-
-                                            } elseif ($tax_details->type == 2) {
-                                                $item_tax = $this->sma->formatDecimal($tax_details->rate);
-                                                $tax = $tax_details->rate;
-                                            }
-                                            $pr_item_tax = $this->sma->formatDecimal($item_tax * $item_quantity);
-                                        } else {
-                                            $this->session->set_flashdata('error', lang("tax_not_found") . " ( " . $item_tax_rate . " ). " . lang("line_no") . " " . $rw);
-                                            redirect($_SERVER["HTTP_REFERER"]);
-                                        }
-
-                                    } elseif ($product_details->tax_rate) {
-
-                                        $pr_tax = $product_details->tax_rate;
-                                        $tax_details = $this->site->getTaxRateByID($pr_tax);
+                                    if ($tax_details = $this->sales_model->getTaxRateByName($item_tax_rate)) {
+                                        $pr_tax = $tax_details->id;
                                         if ($tax_details->type == 1) {
 
                                             $item_tax = $this->sma->formatDecimal((($item_net_price) * $tax_details->rate) / 100);
                                             $tax = $tax_details->rate . "%";
-
                                         } elseif ($tax_details->type == 2) {
-
                                             $item_tax = $this->sma->formatDecimal($tax_details->rate);
                                             $tax = $tax_details->rate;
-
                                         }
                                         $pr_item_tax = $this->sma->formatDecimal($item_tax * $item_quantity);
-
                                     } else {
-                                        $item_tax = 0;
-                                        $pr_tax = 0;
-                                        $pr_item_tax = 0;
-                                        $tax = "";
+                                        $this->session->set_flashdata('error', lang("tax_not_found") . " ( " . $item_tax_rate . " ). " . lang("line_no") . " " . $rw);
+                                        redirect($_SERVER["HTTP_REFERER"]);
                                     }
-                                    $product_tax += $pr_item_tax;
+                                } elseif ($product_details->tax_rate) {
 
-                                    $subtotal = (($item_net_price * $item_quantity) + $pr_item_tax);
-                                    $products[] = array(
-                                        'product_id' => $item_id,
-                                        'product_code' => $item_code,
-                                        'product_name' => $item_name,
-                                        'product_type' => $item_type,
-                                        'option_id' => $item_option->id,
-                                        'net_unit_price' => $item_net_price,
-                                        'unit_price' => $this->sma->formatDecimal($item_net_price + $item_tax),
-                                        'quantity' => $item_quantity,
-                                        'warehouse_id' => $warehouse_id,
-                                        'item_tax' => $pr_item_tax,
-                                        'tax_rate_id' => $pr_tax,
-                                        'tax' => $tax,
-                                        'discount' => $item_discount,
-                                        'item_discount' => $pr_item_discount,
-                                        'subtotal' => $this->sma->formatDecimal($subtotal),
-                                        'serial_no' => $item_serial,
-                                        'unit_price' => $this->sma->formatDecimal($item_net_price + $item_tax + $pr_discount),
-                                    );
+                                    $pr_tax = $product_details->tax_rate;
+                                    $tax_details = $this->site->getTaxRateByID($pr_tax);
+                                    if ($tax_details->type == 1) {
 
-                                    $total += $item_net_price * $item_quantity;
+                                        $item_tax = $this->sma->formatDecimal((($item_net_price) * $tax_details->rate) / 100);
+                                        $tax = $tax_details->rate . "%";
+                                    } elseif ($tax_details->type == 2) {
+
+                                        $item_tax = $this->sma->formatDecimal($tax_details->rate);
+                                        $tax = $tax_details->rate;
+                                    }
+                                    $pr_item_tax = $this->sma->formatDecimal($item_tax * $item_quantity);
+                                } else {
+                                    $item_tax = 0;
+                                    $pr_tax = 0;
+                                    $pr_item_tax = 0;
+                                    $tax = "";
                                 }
+                                $product_tax += $pr_item_tax;
 
+                                $subtotal = (($item_net_price * $item_quantity) + $pr_item_tax);
+                                $products[] = array(
+                                    'product_id' => $item_id,
+                                    'product_code' => $item_code,
+                                    'product_name' => $item_name,
+                                    'product_type' => $item_type,
+                                    'option_id' => $item_option->id,
+                                    'net_unit_price' => $item_net_price,
+                                    'unit_price' => $this->sma->formatDecimal($item_net_price + $item_tax),
+                                    'quantity' => $item_quantity,
+                                    'warehouse_id' => $warehouse_id,
+                                    'item_tax' => $pr_item_tax,
+                                    'tax_rate_id' => $pr_tax,
+                                    'tax' => $tax,
+                                    'discount' => $item_discount,
+                                    'item_discount' => $pr_item_discount,
+                                    'subtotal' => $this->sma->formatDecimal($subtotal),
+                                    'serial_no' => $item_serial,
+                                    'unit_price' => $this->sma->formatDecimal($item_net_price + $item_tax + $pr_discount),
+                                );
+
+                                $total += $item_net_price * $item_quantity;
+                            }
                         } else {
                             $this->session->set_flashdata('error', $this->lang->line("pr_not_found") . " ( " . $csv_pr['code'] . " ). " . $this->lang->line("line_no") . " " . $rw);
                             redirect($_SERVER["HTTP_REFERER"]);
                         }
                         $rw++;
                     }
-
                 }
             }
 
@@ -2542,7 +2486,7 @@ class Sales extends MY_Controller
                 $opos = strpos($order_discount_id, $percentage);
                 if ($opos !== false) {
                     $ods = explode("%", $order_discount_id);
-                    $order_discount = $this->sma->formatDecimal((($total + $product_tax) * (Float)($ods[0])) / 100);
+                    $order_discount = $this->sma->formatDecimal((($total + $product_tax) * (Float) ($ods[0])) / 100);
                 } else {
                     $order_discount = $this->sma->formatDecimal($order_discount_id);
                 }
@@ -2610,10 +2554,9 @@ class Sales extends MY_Controller
                     'cc_year' => '',
                     'cc_type' => '',
                     'created_by' => $this->session->userdata('user_id'),
-                    'note' => lang('auto_added_for_sale_by_csv').' ('.lang('sale_reference_no').' '.$reference.')',
+                    'note' => lang('auto_added_for_sale_by_csv') . ' (' . lang('sale_reference_no') . ' ' . $reference . ')',
                     'type' => 'received'
-                    );
-
+                );
             } else {
                 $payment = array();
             }
@@ -2655,7 +2598,6 @@ class Sales extends MY_Controller
             $bc = array(array('link' => base_url(), 'page' => lang('home')), array('link' => site_url('sales'), 'page' => lang('sales')), array('link' => '#', 'page' => lang('add_sale_by_csv')));
             $meta = array('page_title' => lang('add_sale_by_csv'), 'bc' => $bc);
             $this->page_construct('sales/sale_by_csv', $meta, $this->data);
-
         }
     }
 

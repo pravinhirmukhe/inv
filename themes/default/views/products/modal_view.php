@@ -51,10 +51,12 @@
                                     <td><?= lang("product_code"); ?></td>
                                     <td><?= $product->code; ?></td>
                                 </tr>
+                                <?php if ($product->type != 'combo' && $product->type != 'bundle') { ?>
                                 <tr>
                                     <td><?= lang("product_qty"); ?></td>
                                     <td><?= $product->quantity; ?> ( <?= $product->unit; ?> )</td>
                                 </tr>
+                                <?php }?>
                                 <?php
                                 if ($Owner || $Admin) {
                                     echo '<tr><td>' . $this->lang->line("product_cost") . '</td><td>' . $this->sma->formatMoney($product->cost) . '</td></tr>';
